@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sanibox_app'
+    'sanibox_app',
+    'rest_framework',
+    'django_filters',
+
 ]
 
 MIDDLEWARE = [
