@@ -1,0 +1,136 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/moviepage.css' %}">
+<link rel="stylesheet" href="{% static 'css/commentcastsection.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+{% endblock %}
+<nav class="breadcrumb-bar p-3 px-4">
+    <a href="#" class="breadcrumb-link">Home</a> › 
+    <a href="#" class="breadcrumb-link">Movies</a> › 
+    <span class="text-light">John wick 2</span>
+  </nav>
+
+  <div class="container-fluid px-4 py-3">
+    <div class="row g-3">
+
+      <!-- LEFT SIDEBAR: Episode List -->
+      <div class="col-lg-2 col-md-3 episode-sidebar p-3">
+        <h6 class="text-light mb-3">List of Episodes:</h6>
+        <div class="d-flex align-items-center mb-3">
+          <select class="form-select form-select-sm bg-dark text-light border-0">
+            <option>EPS: 001-100</option>
+            <option>EPS: 101-200</option>
+          </select>
+        </div>
+        <div class="episode-grid">
+          <!-- 100 Dummy Episodes -->
+          <button class="ep-btn active">1</button>
+          <button class="ep-btn">2</button>
+          <button class="ep-btn">3</button>
+          <button class="ep-btn">4</button>
+          <button class="ep-btn">5</button>
+          <button class="ep-btn">6</button>
+          <button class="ep-btn">7</button>
+          <button class="ep-btn">8</button>
+          <button class="ep-btn">9</button>
+          <button class="ep-btn">10</button>
+          <button class="ep-btn">11</button>
+          <button class="ep-btn">12</button>
+          <button class="ep-btn">13</button>
+          <button class="ep-btn">14</button>
+          <button class="ep-btn">15</button>
+          <button class="ep-btn">16</button>
+          <!-- Add more buttons as needed -->
+        </div>
+      </div>
+
+      <!-- CENTER: Video Player -->
+      <div class="col-lg-7 col-md-6">
+        <div class="video-container position-relative">
+          <video id="animeVideo" controls poster="https://via.placeholder.com/800x450/000000/ffffff?text=Loading+Video..." width="100%">
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <!-- Episode Info + Controls -->
+        <div class="player-info mt-3 p-3">
+          <div class="alert alert-dark text-center py-2 mb-3">
+            You are watching <strong>Episode 1</strong><br>
+            If current server doesn’t work please try other servers beside.
+          </div>
+          <div class="d-flex justify-content-center gap-2">
+            <button class="btn btn-sm btn-outline-light">English</button>
+            <button class="btn btn-sm btn-primary">Tamil</button>
+            <button class="btn btn-sm btn-outline-light">Hindi</button>
+          </div>
+        </div>
+
+        <!-- Bottom Info Bar -->
+        <div class="next-ep-bar mt-3 p-3 text-center">
+          <span class="text-info">📅 Estimated the next episode will come at 10/12/2025, 9:15:00 PM</span>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDEBAR: Anime Info -->
+      <div class="col-lg-3 col-md-3">
+        <div class="anime-info p-3">
+          <div class="shine-card mb-3">
+                <img src="https://www.tallengestore.com/cdn/shop/products/JohnWickChapter2-KeanuReeves-HollywoodEnglishActionMovieArtPoster_d7bfaa17-129e-4abc-acf9-1debcdec459b.jpg?v=1649071686" alt="John Wick" />
+            </div>
+          <h5 class="text-light">John Wick 2</h5>
+          <div class="tags mb-2">
+            <span class="badge bg-secondary">PG-13</span>
+            <span class="badge bg-success">HD</span>
+            <span class="badge bg-info">TV</span>
+            <span class="badge bg-dark">24m</span>
+          </div>
+          <p class="text small">
+            Retired super-assassin John Wick's plans to resume a quiet civilian life are cut short when Italian gangster Santino D'Antonio shows up on his doorstep with a gold marker, compelling him to repay past favours. Ordered by Winston, the kingpin of secret assassin society The Continental, to respect the organisation's ancient code, Wick reluctantly accepts the assignment to travel to Rome to take out D'Antonio's sister, the ruthless capo atop the Italian Camorra crime syndicate.
+          </p>
+          <button class="btn btn-outline-light btn-sm mb-3">
+            <i class="bi bi-plus-lg me-1"></i> Add to Watchlist
+           </button>
+
+          <!-- Rating -->
+        <div class="rating-box p-3 rounded mt-4 locked-section">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+                <strong class="text-warning fs-5">⭐ 9.4</strong>
+                <span class="text">
+                <i class="bi bi-lock-fill me-1"></i> Locked
+                </span>
+            </div>
+            <p class="small text mb-1">What do you think about this movie?</p>
+            <div class="d-flex justify-content-between text-center">
+                <button class="rate-btn" disabled>😐 Boring</button>
+                <button class="rate-btn" disabled>😊 Great</button>
+                <button class="rate-btn" disabled>🤩 Amazing</button>
+            </div>
+        </div>
+
+          <!-- Comments -->
+         </div>
+        </div>
+      </div>
+    </div>
+    {% include 'comment_cast_section.html' %}
+  </div>
+
+{% endblock %}
+{% block script %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const episodeButtons = document.querySelectorAll(".ep-btn");
+
+    episodeButtons.forEach((btn, index) => {
+        const episodeNum = index + 1;
+        if (episodeNum > 7) {        // lock episodes after 7
+        btn.classList.add("locked");
+        }
+    });
+    });
+</script>
+{% endblock %} 

@@ -10,6 +10,9 @@ from .models import *
 def index(request):
     return render(request,'index.html')
 
+def moviepage(request):
+    return render(request,'movie_page.html')
+
 class mastermovielistView(generics.ListAPIView):
     serializer_class = MasterMovieSerializer
 

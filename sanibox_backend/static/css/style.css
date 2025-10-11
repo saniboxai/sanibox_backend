@@ -38,7 +38,7 @@ body {
       outline: none;
     }
     .search-box button {
-      background: #f48fb1;
+      background: #ff6bcb;
       border: none;
       border-radius: 6px;
       padding: 8px 14px;
@@ -47,7 +47,7 @@ body {
       font-weight: 600;
     }
     .login-btn {
-      background: #f48fb1;
+      background: #ff6bcb;
       border: none;
       padding: 8px 16px;
       border-radius: 6px;
@@ -159,7 +159,7 @@ body {
       transition: 0.3s ease;
     }
     .btn.watch {
-      background: #f48fb1;
+      background: #ff6bcb;
       color: #fff;
     }
     .btn.detail {
@@ -376,7 +376,7 @@ body {
     left: 0;
     width: 100%;
     height: auto;
-    padding: 0.5em 0.5em 2em;
+    padding: 0.5em 0.5em 1em;
     background: #000a;
     backdrop-filter: blur(16px) saturate(120%);
     transition: .3s;
