@@ -1,4 +1,4 @@
-.comment-section {
+.comment-section, .cast-section {
   background-color: #1b1925;
   color: #fff;
   padding: 20px;
@@ -6,18 +6,7 @@
   border: 1px solid #2d2b39;
 }
 
-.cast-section {
-  background-color: #1b1925;
-  color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px s olid #2d2b39;
-}
-.cast-header h6 {
-  font-weight: 600;
-  color:#ff71c1
-}
-
+/* --- COMMENT SECTION --- */
 .comment-header h6 {
   font-weight: 600;
 }
@@ -62,4 +51,87 @@
 
 .comment-section .dropdown-toggle:hover {
   background-color: #2f2d3d;
+}
+
+/* ======= CAST SECTION ======= */
+.cast-section {
+  background: #1b1925;
+  border: 1px solid #2a2738;
+  border-radius: 10px;
+  padding: 15px;
+  height: 470px;               /* ✅ Fixed height */
+  display: flex;
+  flex-direction: column;
+}
+
+.cast-section .comment-header {
+  border-bottom: 1px solid #2a2738;
+  padding-bottom: 10px;
+}
+
+/* Scrollable area */
+.cast-list {
+  margin-top: 15px;
+  overflow-y: auto;
+  flex-grow: 1;
+  padding-right: 8px;
+}
+
+/* ======= Custom Scrollbar ======= */
+.cast-list::-webkit-scrollbar {
+  width: 6px;
+}
+.cast-list::-webkit-scrollbar-track {
+  background: #1b1925;
+  border-radius: 10px;
+}
+.cast-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #4e49ff, #ff71c1);
+  border-radius: 10px;
+}
+.cast-list::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #6a64ff, #ff8ad4);
+}
+
+/* ======= Individual Cast Item ======= */
+.cast-item {
+  background: #1f1c2a;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #2a2738;
+  transition: 0.3s ease;
+}
+
+.cast-item:hover {
+  background: #27233b;
+  transform: translateY(-2px);
+}
+
+.cast-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffc107;
+  transition: transform 0.3s ease;
+}
+
+.cast-item:hover .cast-img {
+  transform: scale(1.05);
+}
+
+.cast-item h6 {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.cast-item span {
+  font-size: 13px;
+  color: #aaa;
+}
+
+/* Smooth transition */
+.cast-item,
+.cast-img {
+  transition: all 0.3s ease;
 }

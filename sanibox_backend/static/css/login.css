@@ -1,0 +1,125 @@
+/* Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+}
+
+/* Modal Box */
+.login-modal {
+  background: #1b1925;
+  color: #fff;
+  border-radius: 20px;
+  padding: 40px 50px;
+  width: 400px;
+  max-width: 95%;
+  position: relative;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Close Button */
+.close-btn-modal {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.close-btn-modal:hover {
+  color: #f9a8d4;
+}
+
+/* Form Controls */
+.form-label {
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  color: #aaa;
+}
+.form-control {
+  background: #2a2736;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  padding: 12px 15px;
+}
+.form-control:focus {
+  background: #2f2c3b;
+  color: #fff;
+  box-shadow: 0 0 0 0.2rem rgba(255, 192, 203, 0.25);
+}
+
+/* Captcha Box */
+.captcha-box {
+  background: #2a2736;
+  padding: 12px 15px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+/* Login Button */
+.btn-login {
+  background: #f9a8d4;
+  border: none;
+  border-radius: 10px;
+  color: #000;
+  font-weight: 600;
+  padding: 12px;
+  transition: all 0.3s ease;
+}
+.btn-login:hover {
+  background: #ffb6d9;
+}
+
+/* Links */
+.forgot, a   {
+  color: #ffb6d9;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.forgot:hover, a:hover {
+  text-decoration: underline;
+}
+
+/* Social Login */
+.btn-social {
+  background: #2a2736;
+  border: none;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  font-size: 20px;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+.btn-social.google:hover {
+  background: #db4437;
+}
+.btn-social.facebook:hover {
+  background: #1877f2;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .login-modal {
+    padding: 30px 25px;
+    width: 90%;
+  }
+}
+
+#loginForm, #registerForm {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

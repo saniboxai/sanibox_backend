@@ -38,7 +38,7 @@ body {
       outline: none;
     }
     .search-box button {
-      background: #ff6bcb;
+      background: #f48fb1;
       border: none;
       border-radius: 6px;
       padding: 8px 14px;
@@ -47,7 +47,7 @@ body {
       font-weight: 600;
     }
     .login-btn {
-      background: #ff6bcb;
+      background: #f48fb1;
       border: none;
       padding: 8px 16px;
       border-radius: 6px;
@@ -60,7 +60,7 @@ body {
 
     .hero-slider {
         width: 100%;
-        height: 45vh;
+        height: 55vh;
         position: relative;
     }
 
@@ -72,7 +72,7 @@ body {
     .hero-banner {
       position: relative;
       width: 100%;
-      height: 45vh;
+      height: 55vh;
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -159,7 +159,7 @@ body {
       transition: 0.3s ease;
     }
     .btn.watch {
-      background: #ff6bcb;
+      background: #f48fb1;
       color: #fff;
     }
     .btn.detail {
@@ -376,7 +376,7 @@ body {
     left: 0;
     width: 100%;
     height: auto;
-    padding: 0.5em 0.5em 1em;
+    padding: 0.5em 0.5em 2em;
     background: #000a;
     backdrop-filter: blur(16px) saturate(120%);
     transition: .3s;
