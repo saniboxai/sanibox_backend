@@ -35,7 +35,7 @@
   transition: 0.3s;
 }
 .close-btn-modal:hover {
-  color: #f9a8d4;
+  color: #ff6bcb;
 }
 
 /* Form Controls */
@@ -67,7 +67,7 @@
 
 /* Login Button */
 .btn-login {
-  background: #f9a8d4;
+  background: #ff6bcb;
   border: none;
   border-radius: 10px;
   color: #000;
@@ -76,12 +76,12 @@
   transition: all 0.3s ease;
 }
 .btn-login:hover {
-  background: #ffb6d9;
+  background: #ff6bcb;
 }
 
 /* Links */
 .forgot, a   {
-  color: #ffb6d9;
+  color: #ff6bcb;
   text-decoration: none;
   font-size: 0.9rem;
 }

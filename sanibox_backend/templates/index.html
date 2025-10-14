@@ -1,494 +1,554 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+    {% load static %}
+    <!DOCTYPE html>
+    <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanibox - Home</title>
-    <link rel="stylesheet" href="{% static 'css/swiper-bundle.min.css' %}">
-    
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sanibox - Home</title>
+        <link rel="stylesheet" href="{% static 'css/swiper-bundle.min.css' %}">
+        
+        
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'css/login.css' %}">
 
-</head>
+    </head>
 
-<body>
-    <!-- SIDEBAR MENU -->
-<div id="sidebar" class="sidebar">
-  <button class="close-btn"><i class="fas fa-chevron-left"></i> Close menu</button>
+    <body>
+        <!-- SIDEBAR MENU -->
+    <div id="sidebar" class="sidebar">
+    <button class="close-btn"><i class="fas fa-chevron-left"></i> Close menu</button>
 
-  <div class="sidebar-content">
-    <button class="community-btn"><i class="fas fa-hand-holding-heart"></i> Community</button>
+    <div class="sidebar-content">
+        <button class="community-btn"><i class="fas fa-hand-holding-heart"></i> Community</button>
 
-    <ul class="menu">
-      <li>Home</li>
-      <li>Action</li>
-      <li>Adventure</li>
-      <li>Comedy</li>
-      <li>Drama</li>
-      <li>Fantasy</li>
-      <li>Romance</li>
-      <li>Thriller</li>
-      <li>Specials</li>
-      <li>Events</li>
-    </ul>
+        <ul class="menu">
+        <li>Home</li>
+        <li>Action</li>
+        <li>Adventure</li>
+        <li>Comedy</li>
+        <li>Drama</li>
+        <li>Fantasy</li>
+        <li>Romance</li>
+        <li>Thriller</li>
+        <li>Specials</li>
+        <li>Events</li>
+        </ul>
 
-    <!-- <h4 class="genre-title">Genre</h4>
-    <div class="genres">
-      <span>Action</span>
-      <span>Adventure</span>
-      <span>Comedy</span>
-      <span>Drama</span>
-      <span>Fantasy</span>
-      <span>Romance</span>
-      <span>Thriller</span>
-    </div> -->
-  </div>
-</div>
-<div class="modal-overlay" id="loginModal" style="display: None;">
-  <div class="login-modal">
-    <button class="close-btn-modal">&times;</button>
-    <h2 class="text-center mb-4">Welcome back!</h2>
+        <!-- <h4 class="genre-title">Genre</h4>
+        <div class="genres">
+        <span>Action</span>
+        <span>Adventure</span>
+        <span>Comedy</span>
+        <span>Drama</span>
+        <span>Fantasy</span>
+        <span>Romance</span>
+        <span>Thriller</span>
+        </div> -->
+    </div>
+    </div>
+    <div class="modal-overlay" id="loginModal" style="display: None;">
+        <div class="login-modal">
+            <button class="close-btn-modal">&times;</button>
+            <h2 class="text-center mb-4">Welcome back!</h2>
 
-    <form>
-      <label class="form-label">EMAIL ADDRESS</label>
-      <input type="email" class="form-control mb-3" placeholder="name@email.com">
+            <form>
+            <label class="form-label">EMAIL ADDRESS</label>
+            <input type="email" class="form-control mb-3" placeholder="name@email.com">
 
-      <label class="form-label">PASSWORD</label>
-      <input type="password" class="form-control mb-2" placeholder="Password">
+            <label class="form-label">PASSWORD</label>
+            <input type="password" class="form-control mb-2" placeholder="Password">
 
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <div class="form-check">
-          <input type="checkbox" class="form-check-input" id="rememberMe" checked>
-          <label class="form-check-label" for="rememberMe">Remember me</label>
-        </div>
-        <a href="#" class="forgot">Forgot password?</a>
-      </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="rememberMe" checked>
+                <label class="form-check-label" for="rememberMe">Remember me</label>
+                </div>
+                <a href="#" class="forgot">Forgot password?</a>
+            </div>
 
-      <!-- <div class="captcha-box mb-3">
-        <div class="d-flex align-items-center justify-content-between">
-          <div class="text-success fw-semibold"><i class="bi bi-check-circle-fill"></i> Success!</div>
-          <img src="https://developers.cloudflare.com/images/cloudflare-logo.svg" alt="Cloudflare" width="120">
-        </div>
-      </div> -->
+            <!-- <div class="captcha-box mb-3">
+                <div class="d-flex align-items-center justify-content-between">
+                <div class="text-success fw-semibold"><i class="bi bi-check-circle-fill"></i> Success!</div>
+                <img src="https://developers.cloudflare.com/images/cloudflare-logo.svg" alt="Cloudflare" width="120">
+                </div>
+            </div> -->
 
-      <button type="button" class="btn-login w-100">Login</button>
+            <button type="button" class="btn-login w-100">Login</button>
 
-      <div class="social-login mt-3">
-        <p class="text-center small text-muted mb-2">Or continue with</p>
-        <div class="d-flex justify-content-center gap-3">
-          <button type="button" class="btn-social google"><i class="bi bi-google"></i></button>
-          <button type="button" class="btn-social facebook"><i class="bi bi-facebook"></i></button>
-        </div>
-      </div>
+            <div class="social-login mt-3">
+                <p class="text-center small text-muted mb-2">Or continue with</p>
+                <div class="d-flex justify-content-center gap-3">
+                <button type="button" class="btn-social google"><i class="bi bi-google"></i></button>
+                <button type="button" class="btn-social facebook"><i class="bi bi-facebook"></i></button>
+                </div>
+            </div>
 
-      <p class="text-center mt-4 mb-0 small text">
-        Don’t have an account? <a href="#">Register</a> or <a href="#">Verify</a>
-      </p>
-    </form>
-  </div>
-</div>
-
-    <!-- HEADER -->
-    <header class="navbar">
-    <div class="nav-left">
-        <button id="menu-btn" class="menu-btn"><i class="fas fa-bars"></i></button>
-        <div class="logo"><a href="{% url 'index' %}" style="text-decoration: none; color: aliceblue; font-size: 1.5rem;"><span class="highlight">Sani</span>Box</a></div>
-         <div class="search-box">
-            <input type="text" placeholder="Search Movies...">
-            <button>Search</button>
+            <p class="text-center mt-4 mb-0 small text">
+                Don’t have an account? <a href="#" class="open-register">Register</a>
+            </p>
+            </form>
         </div>
     </div>
+    <div class="modal-overlay" id="registerModal" style="display: none;">
+        <div class="login-modal">
+            <button class="close-btn-modal">&times;</button>
+            <h2 class="text-center mb-4">Create an Account</h2>
 
-    <div class = "nav-right">
-        <div class="theme-toggle">
-            <i id="theme-icon" class="fas fa-moon"></i>
+            <form>
+            <label class="form-label">USER NAME</label>
+            <input type="text" class="form-control mb-3" placeholder="Name">
+
+            <label class="form-label">EMAIL ADDRESS</label>
+            <input type="email" class="form-control mb-3" placeholder="name@email.com">
+
+            <label class="form-label">PASSWORD</label>
+            <input type="password" class="form-control mb-3" placeholder="Password">
+
+            <label class="form-label">CONFIRM PASSWORD</label>
+            <input type="password" class="form-control mb-3" placeholder="Confirm Password">
+
+            <!-- <div class="captcha-box mb-3">
+                <div class="d-flex align-items-center justify-content-between">
+                <div class="text-success fw-semibold"><i class="bi bi-check-circle-fill"></i> Success!</div>
+                <img src="https://developers.cloudflare.com/images/cloudflare-logo.svg" alt="Cloudflare" width="120">
+                </div>
+            </div> -->
+
+            <button type="button" class="btn-login w-100">Register</button>
+
+            <p class="text-center mt-4 mb-0 small text">
+                Already have an account? <a href="#" class="open-login">Login</a>
+            </p>
+            </form>
         </div>
-        <button class="login-btn">Login</button>
     </div>
-    </header>
-    {% block content %}
-    <!-- HERO SECTION -->
-    <section class="hero-slider swiper">
-        <div class="swiper-wrapper">
-
-            <!-- Banner 1 -->
-            <div class="swiper-slide">
-            <div class="hero-banner">
-                <div class="hero-bg">
-                <img src="https://pbs.twimg.com/media/DA58xQXXYAA9DM6.jpg" alt="John Wick 4">
-                </div>
-
-                <div class="hero-overlay"></div>
-
-                <div class="hero-content">
-                <p class="spotlight">#1 Spotlight</p>
-                <h1 class="hero-title">John Wick 2</h1>
-
-                <div class="hero-meta">
-                    <span><i class="fas fa-tv"></i> TV</span>
-                    <span><i class="fas fa-clock"></i> 24m</span>
-                    <span><i class="fas fa-calendar"></i> Oct 4, 2025</span>
-                    <span class="tag hd">HD</span>
-                    <span class="tag sub">ENG</span>
-                </div>
-
-                <p class="hero-desc">
-                    John Wick, a retired hitman, visits Italy to pay off an inescapable blood debt. However, he soon finds himself cornered by every killer in the business due to an enormous bounty on his head.
-                </p>
-
-                <div class="hero-buttons">
-                    <a href="{% url 'moviepage' %}"><button class="btn watch"><i class="fas fa-play"></i> Watch Now</button></a>
-                </div>
-                </div>
+        <!-- HEADER -->
+        <header class="navbar">
+        <div class="nav-left">
+            <button id="menu-btn" class="menu-btn"><i class="fas fa-bars"></i></button>
+            <div class="logo"><a href="{% url 'index' %}" style="text-decoration: none; color: aliceblue; font-size: 1.5rem;"><span class="highlight">Sani</span>Box</a></div>
+            <div class="search-box">
+                <input type="text" placeholder="Search Movies...">
+                <button>Search</button>
             </div>
-            </div>
-
-            <!-- Banner 2 -->
-            <div class="swiper-slide">
-            <div class="hero-banner">
-                <div class="hero-bg">
-                <img src="https://pbs.twimg.com/media/GcG4gWFaIAAqLWS.jpg:large" alt="John Wick 4">
-                </div>
-
-                <div class="hero-overlay"></div>
-
-                <div class="hero-content">
-                <p class="spotlight">#2 Spotlight</p>
-                <h1 class="hero-title">Mission: Impossible – The Final Reckoning</h1>
-
-                <div class="hero-meta">
-                    <span><i class="fas fa-tv"></i> TV</span>
-                    <span><i class="fas fa-clock"></i> 24m</span>
-                    <span><i class="fas fa-calendar"></i> Oct 4, 2025</span>
-                    <span class="tag hd">HD</span>
-                    <span class="tag sub">ENG</span>
-                </div>
-
-                <p class="hero-desc">
-                    Ethan Hunt and the IMF team race against time to find the Entity, a rogue artificial intelligence that can destroy mankind.
-
-                <div class="hero-buttons">
-                    <a href ="#"><button class="btn watch"><i class="fas fa-play"></i> Watch Now</button></a>
-                </div>
-                </div>
-            </div>
-            </div>
-
         </div>
 
-        <!-- Pagination dots -->
-        <div class="swiper-pagination"></div>
-        </section>
+        <div class = "nav-right">
+            <div class="theme-toggle">
+                <i id="theme-icon" class="fas fa-moon"></i>
+            </div>
+            <button class="login-btn">Login</button>
+        </div>
+        </header>
+        {% block content %}
+        <!-- HERO SECTION -->
+        <section class="hero-slider swiper">
+            <div class="swiper-wrapper">
 
-    <!-- TRENDING SECTION -->
-    <section class = 'anime-trending'>
-        <div class = 'container'>
-            <div class = 'block_area block_area_trending'>
-                <div class = 'block_area-header'>
-                    <div class = "bah-heading">
-                        <h2 class="cat-heading">Trending</h2>
+                <!-- Banner 1 -->
+                <div class="swiper-slide">
+                <div class="hero-banner">
+                    <div class="hero-bg">
+                    <img src="https://pbs.twimg.com/media/DA58xQXXYAA9DM6.jpg" alt="John Wick 4">
+                    </div>
+
+                    <div class="hero-overlay"></div>
+
+                    <div class="hero-content">
+                    <p class="spotlight">#1 Spotlight</p>
+                    <h1 class="hero-title">John Wick 2</h1>
+
+                    <div class="hero-meta">
+                        <span><i class="fas fa-tv"></i> TV</span>
+                        <span><i class="fas fa-clock"></i> 24m</span>
+                        <span><i class="fas fa-calendar"></i> Oct 4, 2025</span>
+                        <span class="tag hd">HD</span>
+                        <span class="tag sub">ENG</span>
+                    </div>
+
+                    <p class="hero-desc">
+                        John Wick, a retired hitman, visits Italy to pay off an inescapable blood debt. However, he soon finds himself cornered by every killer in the business due to an enormous bounty on his head.
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="{% url 'moviepage' %}"><button class="btn watch"><i class="fas fa-play"></i> Watch Now</button></a>
+                    </div>
                     </div>
                 </div>
-                <div class = "block_area-content">
-                    <div class="swiper trending-swiper">
-                        <div class = "swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);">
-                            <div class="wrapper">
-                                <div class="card">
-                                    <div class="poster"><img src="https://i.postimg.cc/jjBSrfnQ/poster1-img.jpg" alt="Location Unknown"></div>
-                                    <div class="details">
-                                        <h1>Location Unknown</h1>
-                                        <h2>2021 • PG • 1hr 38min</h2>
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <span>4.2/5</span>
-                                        </div>
-                                        <div class="tags">
-                                            <span class="tag">Italian</span>
-                                            <span class="tag">Drama</span>
-                                            <span class="tag">Indie</span>
-                                        </div>
-                                        <p class="desc">
-                                            Marco, a disillusioned backpacker in his late 20s, embarks on a solitary journey in search for meaning.
-                                        </p>
-                                        <div class="cast">
-                                            <ul>
-                                                <li><img src="https://i.postimg.cc/jqgkqhSb/cast-11.jpg" alt="Marco Andrews" title="Marco Andrews"></li>
-                                                <li><img src="https://i.postimg.cc/8P7X7r7r/cast-12.jpg" alt="Rebecca Floyd" title="Rebecca Floyd"></li>
-                                                <li><img src="https://i.postimg.cc/2SvHwRFk/cast-13.jpg" alt="Antonio Herrera" title="Antonio Herrera"></li>
-                                            </ul>
-                                        </div>
-                                        <div class="play-circle">
-                                            <i class="fa fa-play"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="poster"><img src="https://i.postimg.cc/jjBSrfnQ/poster1-img.jpg" alt="Location Unknown"></div>
-                                    <div class="details">
-                                        <h1>Location Unknown</h1>
-                                        <h2>2021 • PG • 1hr 38min</h2>
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <span>4.2/5</span>
-                                        </div>
-                                        <div class="tags">
-                                            <span class="tag">Italian</span>
-                                            <span class="tag">Drama</span>
-                                            <span class="tag">Indie</span>
-                                        </div>
-                                        <p class="desc">
-                                            Marco, a disillusioned backpacker in his late 20s, embarks on a solitary journey in search for meaning.
-                                        </p>
-                                        <div class="cast">
-                                            <ul>
-                                                <li><img src="https://i.postimg.cc/jqgkqhSb/cast-11.jpg" alt="Marco Andrews" title="Marco Andrews"></li>
-                                                <li><img src="https://i.postimg.cc/8P7X7r7r/cast-12.jpg" alt="Rebecca Floyd" title="Rebecca Floyd"></li>
-                                                <li><img src="https://i.postimg.cc/2SvHwRFk/cast-13.jpg" alt="Antonio Herrera" title="Antonio Herrera"></li>
-                                            </ul>
-                                        </div>
-                                        <div class="play-circle">
-                                            <i class="fa fa-play"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="poster"><img src="https://i.postimg.cc/jjBSrfnQ/poster1-img.jpg" alt="Location Unknown"></div>
-                                    <div class="details">
-                                        <h1>Location Unknown</h1>
-                                        <h2>2021 • PG • 1hr 38min</h2>
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <span>4.2/5</span>
-                                        </div>
-                                        <div class="tags">
-                                            <span class="tag">Italian</span>
-                                            <span class="tag">Drama</span>
-                                            <span class="tag">Indie</span>
-                                        </div>
-                                        <p class="desc">
-                                            Marco, a disillusioned backpacker in his late 20s, embarks on a solitary journey in search for meaning.
-                                        </p>
-                                        <div class="cast">
-                                            <ul>
-                                                <li><img src="https://i.postimg.cc/jqgkqhSb/cast-11.jpg" alt="Marco Andrews" title="Marco Andrews"></li>
-                                                <li><img src="https://i.postimg.cc/8P7X7r7r/cast-12.jpg" alt="Rebecca Floyd" title="Rebecca Floyd"></li>
-                                                <li><img src="https://i.postimg.cc/2SvHwRFk/cast-13.jpg" alt="Antonio Herrera" title="Antonio Herrera"></li>
-                                            </ul>
-                                        </div>
-                                        <div class="play-circle">
-                                            <i class="fa fa-play"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="poster"><img src="https://i.postimg.cc/jjBSrfnQ/poster1-img.jpg" alt="Location Unknown"></div>
-                                    <div class="details">
-                                        <h1>Location Unknown</h1>
-                                        <h2>2021 • PG • 1hr 38min</h2>
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <span>4.2/5</span>
-                                        </div>
-                                        <div class="tags">
-                                            <span class="tag">Italian</span>
-                                            <span class="tag">Drama</span>
-                                            <span class="tag">Indie</span>
-                                        </div>
-                                        <p class="desc">
-                                            Marco, a disillusioned backpacker in his late 20s, embarks on a solitary journey in search for meaning.
-                                        </p>
-                                        <div class="cast">
-                                            <ul>
-                                                <li><img src="https://i.postimg.cc/jqgkqhSb/cast-11.jpg" alt="Marco Andrews" title="Marco Andrews"></li>
-                                                <li><img src="https://i.postimg.cc/8P7X7r7r/cast-12.jpg" alt="Rebecca Floyd" title="Rebecca Floyd"></li>
-                                                <li><img src="https://i.postimg.cc/2SvHwRFk/cast-13.jpg" alt="Antonio Herrera" title="Antonio Herrera"></li>
-                                            </ul>
-                                        </div>
-                                        <div class="play-circle">
-                                            <i class="fa fa-play"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="poster"><img src="https://i.postimg.cc/jjBSrfnQ/poster1-img.jpg" alt="Location Unknown"></div>
-                                    <div class="details">
-                                        <h1>Location Unknown</h1>
-                                        <h2>2021 • PG • 1hr 38min</h2>
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <span>4.2/5</span>
-                                        </div>
-                                        <div class="tags">
-                                            <span class="tag">Italian</span>
-                                            <span class="tag">Drama</span>
-                                            <span class="tag">Indie</span>
-                                        </div>
-                                        <p class="desc">
-                                            Marco, a disillusioned backpacker in his late 20s, embarks on a solitary journey in search for meaning.
-                                        </p>
-                                        <div class="cast">
-                                            <ul>
-                                                <li><img src="https://i.postimg.cc/jqgkqhSb/cast-11.jpg" alt="Marco Andrews" title="Marco Andrews"></li>
-                                                <li><img src="https://i.postimg.cc/8P7X7r7r/cast-12.jpg" alt="Rebecca Floyd" title="Rebecca Floyd"></li>
-                                                <li><img src="https://i.postimg.cc/2SvHwRFk/cast-13.jpg" alt="Antonio Herrera" title="Antonio Herrera"></li>
-                                            </ul>
-                                        </div>
-                                        <div class="play-circle">
-                                            <i class="fa fa-play"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="poster"><img src="https://i.postimg.cc/jjBSrfnQ/poster1-img.jpg" alt="Location Unknown"></div>
-                                    <div class="details">
-                                        <h1>Location Unknown</h1>
-                                        <h2>2021 • PG • 1hr 38min</h2>
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <span>4.2/5</span>
-                                        </div>
-                                        <div class="tags">
-                                            <span class="tag">Italian</span>
-                                            <span class="tag">Drama</span>
-                                            <span class="tag">Indie</span>
-                                        </div>
-                                        <p class="desc">
-                                            Marco, a disillusioned backpacker in his late 20s, embarks on a solitary journey in search for meaning.
-                                        </p>
-                                        <div class="cast">
-                                            <ul>
-                                                <li><img src="https://i.postimg.cc/jqgkqhSb/cast-11.jpg" alt="Marco Andrews" title="Marco Andrews"></li>
-                                                <li><img src="https://i.postimg.cc/8P7X7r7r/cast-12.jpg" alt="Rebecca Floyd" title="Rebecca Floyd"></li>
-                                                <li><img src="https://i.postimg.cc/2SvHwRFk/cast-13.jpg" alt="Antonio Herrera" title="Antonio Herrera"></li>
-                                            </ul>
-                                        </div>
-                                        <div class="play-circle">
-                                            <i class="fa fa-play"></i>
-                                        </div>
-                                    </div>
-                                </div>
+                </div>
 
+                <!-- Banner 2 -->
+                <div class="swiper-slide">
+                <div class="hero-banner">
+                    <div class="hero-bg">
+                    <img src="https://pbs.twimg.com/media/GcG4gWFaIAAqLWS.jpg:large" alt="John Wick 4">
+                    </div>
+
+                    <div class="hero-overlay"></div>
+
+                    <div class="hero-content">
+                    <p class="spotlight">#2 Spotlight</p>
+                    <h1 class="hero-title">Mission: Impossible – The Final Reckoning</h1>
+
+                    <div class="hero-meta">
+                        <span><i class="fas fa-tv"></i> TV</span>
+                        <span><i class="fas fa-clock"></i> 24m</span>
+                        <span><i class="fas fa-calendar"></i> Oct 4, 2025</span>
+                        <span class="tag hd">HD</span>
+                        <span class="tag sub">ENG</span>
+                    </div>
+
+                    <p class="hero-desc">
+                        Ethan Hunt and the IMF team race against time to find the Entity, a rogue artificial intelligence that can destroy mankind.
+
+                    <div class="hero-buttons">
+                        <a href ="#"><button class="btn watch"><i class="fas fa-play"></i> Watch Now</button></a>
+                    </div>
+                    </div>
+                </div>
+                </div>
+
+            </div>
+
+            <!-- Pagination dots -->
+            <div class="swiper-pagination"></div>
+            </section>
+
+        <!-- TRENDING SECTION -->
+        <section class = 'anime-trending'>
+            <div class = 'container'>
+                <div class = 'block_area block_area_trending'>
+                    <div class = 'block_area-header'>
+                        <div class = "bah-heading">
+                            <h2 class="cat-heading">Trending</h2>
+                        </div>
+                    </div>
+                    <div class = "block_area-content">
+                        <div class="swiper trending-swiper">
+                            <div class = "swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);">
+                                <div class="wrapper">
+                                    <div class="card">
+                                        <div class="poster"><img src="https://i.postimg.cc/jjBSrfnQ/poster1-img.jpg" alt="Location Unknown"></div>
+                                        <div class="details">
+                                            <h1>Location Unknown</h1>
+                                            <h2>2021 • PG • 1hr 38min</h2>
+                                            <div class="rating">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                                <span>4.2/5</span>
+                                            </div>
+                                            <div class="tags">
+                                                <span class="tag">Italian</span>
+                                                <span class="tag">Drama</span>
+                                                <span class="tag">Indie</span>
+                                            </div>
+                                            <p class="desc">
+                                                Marco, a disillusioned backpacker in his late 20s, embarks on a solitary journey in search for meaning.
+                                            </p>
+                                            <div class="cast">
+                                                <ul>
+                                                    <li><img src="https://i.postimg.cc/jqgkqhSb/cast-11.jpg" alt="Marco Andrews" title="Marco Andrews"></li>
+                                                    <li><img src="https://i.postimg.cc/8P7X7r7r/cast-12.jpg" alt="Rebecca Floyd" title="Rebecca Floyd"></li>
+                                                    <li><img src="https://i.postimg.cc/2SvHwRFk/cast-13.jpg" alt="Antonio Herrera" title="Antonio Herrera"></li>
+                                                </ul>
+                                            </div>
+                                            <div class="play-circle">
+                                                <i class="fa fa-play"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="poster"><img src="https://i.postimg.cc/jjBSrfnQ/poster1-img.jpg" alt="Location Unknown"></div>
+                                        <div class="details">
+                                            <h1>Location Unknown</h1>
+                                            <h2>2021 • PG • 1hr 38min</h2>
+                                            <div class="rating">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                                <span>4.2/5</span>
+                                            </div>
+                                            <div class="tags">
+                                                <span class="tag">Italian</span>
+                                                <span class="tag">Drama</span>
+                                                <span class="tag">Indie</span>
+                                            </div>
+                                            <p class="desc">
+                                                Marco, a disillusioned backpacker in his late 20s, embarks on a solitary journey in search for meaning.
+                                            </p>
+                                            <div class="cast">
+                                                <ul>
+                                                    <li><img src="https://i.postimg.cc/jqgkqhSb/cast-11.jpg" alt="Marco Andrews" title="Marco Andrews"></li>
+                                                    <li><img src="https://i.postimg.cc/8P7X7r7r/cast-12.jpg" alt="Rebecca Floyd" title="Rebecca Floyd"></li>
+                                                    <li><img src="https://i.postimg.cc/2SvHwRFk/cast-13.jpg" alt="Antonio Herrera" title="Antonio Herrera"></li>
+                                                </ul>
+                                            </div>
+                                            <div class="play-circle">
+                                                <i class="fa fa-play"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="poster"><img src="https://i.postimg.cc/jjBSrfnQ/poster1-img.jpg" alt="Location Unknown"></div>
+                                        <div class="details">
+                                            <h1>Location Unknown</h1>
+                                            <h2>2021 • PG • 1hr 38min</h2>
+                                            <div class="rating">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                                <span>4.2/5</span>
+                                            </div>
+                                            <div class="tags">
+                                                <span class="tag">Italian</span>
+                                                <span class="tag">Drama</span>
+                                                <span class="tag">Indie</span>
+                                            </div>
+                                            <p class="desc">
+                                                Marco, a disillusioned backpacker in his late 20s, embarks on a solitary journey in search for meaning.
+                                            </p>
+                                            <div class="cast">
+                                                <ul>
+                                                    <li><img src="https://i.postimg.cc/jqgkqhSb/cast-11.jpg" alt="Marco Andrews" title="Marco Andrews"></li>
+                                                    <li><img src="https://i.postimg.cc/8P7X7r7r/cast-12.jpg" alt="Rebecca Floyd" title="Rebecca Floyd"></li>
+                                                    <li><img src="https://i.postimg.cc/2SvHwRFk/cast-13.jpg" alt="Antonio Herrera" title="Antonio Herrera"></li>
+                                                </ul>
+                                            </div>
+                                            <div class="play-circle">
+                                                <i class="fa fa-play"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="poster"><img src="https://i.postimg.cc/jjBSrfnQ/poster1-img.jpg" alt="Location Unknown"></div>
+                                        <div class="details">
+                                            <h1>Location Unknown</h1>
+                                            <h2>2021 • PG • 1hr 38min</h2>
+                                            <div class="rating">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                                <span>4.2/5</span>
+                                            </div>
+                                            <div class="tags">
+                                                <span class="tag">Italian</span>
+                                                <span class="tag">Drama</span>
+                                                <span class="tag">Indie</span>
+                                            </div>
+                                            <p class="desc">
+                                                Marco, a disillusioned backpacker in his late 20s, embarks on a solitary journey in search for meaning.
+                                            </p>
+                                            <div class="cast">
+                                                <ul>
+                                                    <li><img src="https://i.postimg.cc/jqgkqhSb/cast-11.jpg" alt="Marco Andrews" title="Marco Andrews"></li>
+                                                    <li><img src="https://i.postimg.cc/8P7X7r7r/cast-12.jpg" alt="Rebecca Floyd" title="Rebecca Floyd"></li>
+                                                    <li><img src="https://i.postimg.cc/2SvHwRFk/cast-13.jpg" alt="Antonio Herrera" title="Antonio Herrera"></li>
+                                                </ul>
+                                            </div>
+                                            <div class="play-circle">
+                                                <i class="fa fa-play"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="poster"><img src="https://i.postimg.cc/jjBSrfnQ/poster1-img.jpg" alt="Location Unknown"></div>
+                                        <div class="details">
+                                            <h1>Location Unknown</h1>
+                                            <h2>2021 • PG • 1hr 38min</h2>
+                                            <div class="rating">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                                <span>4.2/5</span>
+                                            </div>
+                                            <div class="tags">
+                                                <span class="tag">Italian</span>
+                                                <span class="tag">Drama</span>
+                                                <span class="tag">Indie</span>
+                                            </div>
+                                            <p class="desc">
+                                                Marco, a disillusioned backpacker in his late 20s, embarks on a solitary journey in search for meaning.
+                                            </p>
+                                            <div class="cast">
+                                                <ul>
+                                                    <li><img src="https://i.postimg.cc/jqgkqhSb/cast-11.jpg" alt="Marco Andrews" title="Marco Andrews"></li>
+                                                    <li><img src="https://i.postimg.cc/8P7X7r7r/cast-12.jpg" alt="Rebecca Floyd" title="Rebecca Floyd"></li>
+                                                    <li><img src="https://i.postimg.cc/2SvHwRFk/cast-13.jpg" alt="Antonio Herrera" title="Antonio Herrera"></li>
+                                                </ul>
+                                            </div>
+                                            <div class="play-circle">
+                                                <i class="fa fa-play"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="poster"><img src="https://i.postimg.cc/jjBSrfnQ/poster1-img.jpg" alt="Location Unknown"></div>
+                                        <div class="details">
+                                            <h1>Location Unknown</h1>
+                                            <h2>2021 • PG • 1hr 38min</h2>
+                                            <div class="rating">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                                <span>4.2/5</span>
+                                            </div>
+                                            <div class="tags">
+                                                <span class="tag">Italian</span>
+                                                <span class="tag">Drama</span>
+                                                <span class="tag">Indie</span>
+                                            </div>
+                                            <p class="desc">
+                                                Marco, a disillusioned backpacker in his late 20s, embarks on a solitary journey in search for meaning.
+                                            </p>
+                                            <div class="cast">
+                                                <ul>
+                                                    <li><img src="https://i.postimg.cc/jqgkqhSb/cast-11.jpg" alt="Marco Andrews" title="Marco Andrews"></li>
+                                                    <li><img src="https://i.postimg.cc/8P7X7r7r/cast-12.jpg" alt="Rebecca Floyd" title="Rebecca Floyd"></li>
+                                                    <li><img src="https://i.postimg.cc/2SvHwRFk/cast-13.jpg" alt="Antonio Herrera" title="Antonio Herrera"></li>
+                                                </ul>
+                                            </div>
+                                            <div class="play-circle">
+                                                <i class="fa fa-play"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    {% endblock %}
-    <script src="{% static 'js/swiper-bundle.min.js' %}"></script>
-    
-    <script>
-        const swiper = new Swiper('.trending-swiper', {
-            slidesPerView: 5,
-            spaceBetween: 20,
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            breakpoints: {
-                0: { slidesPerView: 2 },
-                768: { slidesPerView: 3 },
-                1024: { slidesPerView: 5 },
-            },
-        });
-        const heroSwiper = new Swiper('.hero-slider', {
-            loop: true,
-            autoplay: {
-            delay: 4000,
-            disableOnInteraction: false,
-            },
-            pagination: {
-            el: '.hero-slider .swiper-pagination',
-            clickable: true,
-            },
-            effect: 'fade',
-            fadeEffect: {
-            crossFade: true,
-            },
-        });
-        const menuBtn = document.getElementById("menu-btn");
-        const sidebar = document.getElementById("sidebar");
-        const closeBtn = document.querySelector(".close-btn");
+        </section>
+        {% endblock %}
+        <script src="{% static 'js/swiper-bundle.min.js' %}"></script>
+        
+        <script>
+            const swiper = new Swiper('.trending-swiper', {
+                slidesPerView: 5,
+                spaceBetween: 20,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    0: { slidesPerView: 2 },
+                    768: { slidesPerView: 3 },
+                    1024: { slidesPerView: 5 },
+                },
+            });
+            const heroSwiper = new Swiper('.hero-slider', {
+                loop: true,
+                autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+                },
+                pagination: {
+                el: '.hero-slider .swiper-pagination',
+                clickable: true,
+                },
+                effect: 'fade',
+                fadeEffect: {
+                crossFade: true,
+                },
+            });
+            const menuBtn = document.getElementById("menu-btn");
+            const sidebar = document.getElementById("sidebar");
+            const closeBtn = document.querySelector(".close-btn");
 
-        menuBtn.addEventListener("click", () => {
-            sidebar.classList.add("active");
-        });
+            menuBtn.addEventListener("click", () => {
+                sidebar.classList.add("active");
+            });
 
-        closeBtn.addEventListener("click", () => {
-            sidebar.classList.remove("active");
-        });
-        const themeIcon = document.getElementById("theme-icon");
-        const body = document.body;
+            closeBtn.addEventListener("click", () => {
+                sidebar.classList.remove("active");
+            });
+            const themeIcon = document.getElementById("theme-icon");
+            const body = document.body;
 
-        // Default: dark mode
-        let isDarkMode = true;
+            // Default: dark mode
+            let isDarkMode = true;
 
-        themeIcon.addEventListener("click", () => {
-            isDarkMode = !isDarkMode;
-            body.classList.toggle("light-mode", !isDarkMode);
+            themeIcon.addEventListener("click", () => {
+                isDarkMode = !isDarkMode;
+                body.classList.toggle("light-mode", !isDarkMode);
 
-            // Change icon
-            themeIcon.classList.toggle("fa-sun", !isDarkMode);
-            themeIcon.classList.toggle("fa-moon", isDarkMode);
-        });
+                // Change icon
+                themeIcon.classList.toggle("fa-sun", !isDarkMode);
+                themeIcon.classList.toggle("fa-moon", isDarkMode);
+            });
 
-        const loginBtn = document.querySelector(".login-btn");
-        const loginModal = document.getElementById("loginModal");
-        const closeModalBtn = document.querySelector(".close-btn-modal");
+            const loginBtn = document.querySelector(".login-btn"); // your navbar or trigger button
+            const loginModal = document.getElementById("loginModal");
+            const registerModal = document.getElementById("registerModal");
+            const closeButtons = document.querySelectorAll(".close-btn-modal");
 
-        // Open modal
-        loginBtn.addEventListener("click", () => {
-            loginModal.style.display = "flex"; // show modal overlay
-            document.body.style.overflow = "hidden"; // prevent background scroll
-        });
-
-        // Close modal when "×" is clicked
-        closeModalBtn.addEventListener("click", () => {
-            loginModal.style.display = "none";
-            document.body.style.overflow = "auto";
-        });
-
-        // Close modal when clicking outside the modal box
-        loginModal.addEventListener("click", (e) => {
-            if (e.target === loginModal) {
-                loginModal.style.display = "none";
-                document.body.style.overflow = "auto";
+            // Open login modal
+            if (loginBtn) {
+            loginBtn.addEventListener("click", () => {
+                loginModal.style.display = "flex";
+                document.body.style.overflow = "hidden";
+            });
             }
-        });
-    </script>
-    
-</body>
 
-</html>
+            // Close modals (× button)
+            closeButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                loginModal.style.display = "none";
+                registerModal.style.display = "none";
+                document.body.style.overflow = "auto";
+            });
+            });
+
+            // Close when clicking outside the box
+            [loginModal, registerModal].forEach(modal => {
+            modal.addEventListener("click", e => {
+                if (e.target === modal) {
+                modal.style.display = "none";
+                document.body.style.overflow = "auto";
+                }
+            });
+            });
+
+            // Switch: Login → Register
+            const openRegisterLink = document.querySelector(".open-register");
+            if (openRegisterLink) {
+            openRegisterLink.addEventListener("click", (e) => {
+                e.preventDefault();
+                loginModal.style.display = "none";
+                registerModal.style.display = "flex";
+            });
+            }
+
+            // Switch: Register → Login
+            const openLoginLink = document.querySelector(".open-login");
+            if (openLoginLink) {
+            openLoginLink.addEventListener("click", (e) => {
+                e.preventDefault();
+                registerModal.style.display = "none";
+                loginModal.style.display = "flex";
+            });
+            }
+        </script>
+        
+    </body>
+
+    </html>
