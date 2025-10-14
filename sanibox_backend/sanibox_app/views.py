@@ -27,3 +27,19 @@ class mastermovielistView(generics.ListAPIView):
         if serializer.data:
             return Response({"data":serializer.data},status=status.HTTP_200_OK)
         return Response({"data":"Data Not Found"},status=status.HTTP_404_NOT_FOUND)
+    
+
+class MasterGenreListView(generics.ListAPIView):
+    serializer_class = MasterGenreSerializer
+
+    def get_queryset(self):
+        queryset = Genre.objects.all()
+        return queryset
+    
+    def list(self,request,*args,**kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset,many = True,context = {'request':request})
+        if serializer.data:
+            return Response({"data":serializer.data},status = status.HTTP_200_OK)
+        return Response({"data":"Data Not Found"},status=status.HTTP_404_NOT_FOUND)
+    

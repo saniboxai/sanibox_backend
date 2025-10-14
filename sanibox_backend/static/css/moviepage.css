@@ -41,7 +41,7 @@ body {
   background: #4e49ff;
 }
 .ep-btn.active {
-  background: #ff71c1;
+  background: #ff6bcb;
   color: #000;
 }
 
@@ -109,6 +109,7 @@ body {
   object-fit: cover;
   border-radius: 10px;
 }
+
 
 .shine-card {
   position: relative;

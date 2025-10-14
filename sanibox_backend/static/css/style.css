@@ -38,7 +38,7 @@ body {
       outline: none;
     }
     .search-box button {
-      background: #f48fb1;
+      background: #ff6bcb;
       border: none;
       border-radius: 6px;
       padding: 8px 14px;
@@ -47,7 +47,7 @@ body {
       font-weight: 600;
     }
     .login-btn {
-      background: #f48fb1;
+      background: #ff6bcb;
       border: none;
       padding: 8px 16px;
       border-radius: 6px;
@@ -106,7 +106,7 @@ body {
     }
 
     .spotlight {
-      color: #f48fb1;
+      color: #ff6bcb;
       font-weight: 600;
       font-size: 15px;
     }
@@ -134,7 +134,7 @@ body {
       border-radius: 4px;
       font-size: 12px;
     }
-    .hero-meta .hd { color: #f48fb1; }
+    .hero-meta .hd { color: #ff6bcb; }
     .hero-meta .sub { color: #7ae17a; }
 
     .hero-desc {
@@ -159,7 +159,7 @@ body {
       transition: 0.3s ease;
     }
     .btn.watch {
-      background: #f48fb1;
+      background: #ff6bcb;
       color: #fff;
     }
     .btn.detail {
@@ -223,7 +223,7 @@ body {
         font-weight: 600;
         padding: 0;
         margin: 0;
-        color: #ffbade
+        color: #ff6bcb
     }
     .block_area .block_area-header .viewmore .btn {
         padding: 4px 0;
@@ -376,7 +376,7 @@ body {
     left: 0;
     width: 100%;
     height: auto;
-    padding: 0.5em 0.5em 2em;
+    padding: 0.5em 0.5em 0.5em;
     background: #000a;
     backdrop-filter: blur(16px) saturate(120%);
     transition: .3s;
@@ -480,7 +480,7 @@ body {
     opacity: 0.5;
   }
   .swiper-pagination-bullet-active {
-    background: #f48fb1;
+    background: #ff6bcb;
     opacity: 1;
   }
 
@@ -637,7 +637,7 @@ body {
 .play-circle {
   width: 55px;
   height: 53px;
-  border: 3px solid #ece9e9;
+  border: 1px solid #ece9e9;
   border-radius: 53%;
   display: flex;
   align-items: center;
