@@ -25,19 +25,8 @@
 
     <div class="sidebar-content">
         <button class="community-btn"><i class="fas fa-hand-holding-heart"></i> Community</button>
-
-        <ul class="menu">
-        <li>Home</li>
-        <li>Action</li>
-        <li>Adventure</li>
-        <li>Comedy</li>
-        <li>Drama</li>
-        <li>Fantasy</li>
-        <li>Romance</li>
-        <li>Thriller</li>
-        <li>Specials</li>
-        <li>Events</li>
-        </ul>
+        <div id="loading">Loading genres...</div>
+        <ul class="menu" id="genre-list"></ul>
 
         <!-- <h4 class="genre-title">Genre</h4>
         <div class="genres">
@@ -547,6 +536,36 @@
                 loginModal.style.display = "flex";
             });
             }
+            async function loadGenres() {
+            const loading = document.getElementById("loading");
+            const genreList = document.getElementById("genre-list");
+            loading.style.display = "block";
+
+            try {
+                const response = await fetch("http://127.0.0.1:8000/sanibox/genrelist/");
+                const result = await response.json();
+                const genres = result.data;
+                console.log(genres)
+                genreList.innerHTML = "";
+
+                if (Array.isArray(genres)) {
+                genres.forEach(g => {
+                    const li = document.createElement("li");
+                    li.textContent = g.category_name;
+                    genreList.appendChild(li);
+                });
+                } else {
+                genreList.innerHTML = "<li>No genres found.</li>";
+                }
+            } catch (err) {
+                console.error(err);
+                genreList.innerHTML = "<li>Failed to load genres.</li>";
+            } finally {
+                loading.style.display = "none";
+            }
+            }
+
+            document.addEventListener("DOMContentLoaded", loadGenres);
         </script>
         
     </body>
