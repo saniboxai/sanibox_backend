@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'sanibox_app',
     'rest_framework',
     'django_filters',
+    'corsheaders'
 
 ]
 
@@ -52,6 +53,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = 'sanibox_backend.urls'
@@ -121,6 +124,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 # Static files (CSS, JavaScript, Images)
