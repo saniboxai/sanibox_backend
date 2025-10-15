@@ -86,8 +86,8 @@ class MasterMovieAdmin(admin.ModelAdmin):
     search_fields = ('movie_title', 'movie_code')
     ordering = ('-release_date',)
     inlines = [MasterEpisodesInline]
-    prepopulated_fields = {'slug': ('movie_title',)}
     filter_horizontal = ('language', 'genre', 'sub_genre')
+    readonly_fields = ('slug',) 
 
 
 @admin.register(MasterMovieDetails)

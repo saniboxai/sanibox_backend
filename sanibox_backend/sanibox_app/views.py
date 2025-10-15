@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from datetime import timedelta
+from django.shortcuts import render,get_object_or_404
 from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView 
@@ -10,8 +11,9 @@ from .models import *
 def index(request):
     return render(request,'index.html')
 
-def moviepage(request):
-    return render(request,'movie_page.html')
+def moviepage(request, code):
+    movie = get_object_or_404(MasterMovie, movie_code=code)
+    return render(request, 'movie_page.html', {'movie': movie})
 
 class mastermovielistView(generics.ListAPIView):
     serializer_class = MasterMovieSerializer
@@ -43,3 +45,51 @@ class MasterGenreListView(generics.ListAPIView):
             return Response({"data":serializer.data},status = status.HTTP_200_OK)
         return Response({"data":"Data Not Found"},status=status.HTTP_404_NOT_FOUND)
     
+
+class MainBannerListView(generics.ListAPIView):
+
+    serializer_class = MainBannerSerializer
+
+    def get_queryset(self):
+        return MainBannerImage.objects.all()
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True, context={'request': request})
+        
+        if serializer.data:
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+        return Response({"data": "Data Not Found"}, status=status.HTTP_404_NOT_FOUND)
+    
+
+class TrendingMovieListView(generics.ListAPIView):
+    serializer_class = TrendingMovieSerializer
+
+    def get_queryset(self):
+        # Calculate the weighted score in DB query using annotation
+        queryset = (
+            MasterMovie.objects.filter(is_released=True)
+            .annotate(trending_score=models.F("like") * 0.7 + models.F("views") * 0.3)
+            .order_by("-trending_score")[:10]  # top 10 trending
+        )
+        return queryset
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True, context={'request': request})
+        
+        if serializer.data:
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+        return Response({"data": "Data Not Found"}, status=status.HTTP_404_NOT_FOUND)
+    
+
+class NewMovieListView(generics.ListAPIView):
+    serializer_class = NewMovieSerializer
+
+    def get_queryset(self):
+        recent_days = 30
+        cutoff_date = timezone.now().date() - timedelta(days=recent_days)
+        return MasterMovie.objects.filter(
+            is_released=True,
+            release_date__gte=cutoff_date
+        ).order_by('-release_date')[:10]
