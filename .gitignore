@@ -2,6 +2,8 @@
 
 /venv/
 
+.env
+
 sanibox_backend/sanibox_app/__pycache__/
 sanibox_backend/sanibox_app/migrations/
 sanibox_backend/sanibox_backend/__pycache__/
