@@ -18,6 +18,10 @@ def moviepage(request, code):
     movie = get_object_or_404(MasterMovie, movie_code=code)
     return render(request, 'movie_page.html', {'movie': movie})
 
+def genrewisemoviepage(request):
+    return render(request,'genrewisemovies.html')
+
+
 def user_session_view(request):
     user = request.user
     if user.is_authenticated:
@@ -113,3 +117,70 @@ class NewMovieListView(generics.ListAPIView):
             is_released=True,
             release_date__gte=cutoff_date
         ).order_by('-release_date')[:10]
+    
+class GenreWiseListView(generics.ListAPIView):
+    serializer_class = GenreWiseGroupedSerializer
+
+    def get_queryset(self):
+        return MasterMovie.objects.filter(is_released=True)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        if not queryset.exists():
+            return Response({"data": "Data Not Found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.get_serializer()
+        grouped_data = serializer.to_representation(queryset)
+        return Response({"data": grouped_data}, status=status.HTTP_200_OK)
+    
+class MoviePageListView(generics.RetrieveAPIView):
+    serializer_class = MasterMovieSerializer
+    lookup_field = 'movie_code'
+
+    def get_queryset(self):
+        return MasterMovie.objects.filter(is_released=True)
+
+    def retrieve(self, request, *args, **kwargs):
+        movie_code = kwargs.get("movie_code")
+        movie = get_object_or_404(self.get_queryset(), movie_code=movie_code)
+
+        serializer = self.get_serializer(movie)
+        data = serializer.data
+
+        if not data:
+            return Response({"data": "Data Not Found"}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response({"data": data}, status=status.HTTP_200_OK)
+    
+
+class MovieDetailsCastView(generics.RetrieveAPIView):
+    serializer_class = MasterMovieDetailsSerializer
+    lookup_field = "master_movie__movie_code"
+
+    def get_queryset(self):
+        return MasterMovieDetails.objects.select_related("main_heros", "main_director").prefetch_related("cast")
+
+    def retrieve(self, request, *args, **kwargs):
+        movie_code = kwargs.get("movie_code")
+        queryset = self.get_queryset()
+        instance = get_object_or_404(queryset, master_movie__movie_code=movie_code)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+class MovieCommentsView(generics.ListAPIView):
+    serializer_class = UserCommentsSerializer
+
+    def get_queryset(self):
+        movie_code = self.kwargs.get("movie_code")
+        movie = get_object_or_404(MasterMovie, movie_code=movie_code)
+        return UserComments.objects.filter(user_movie=movie).select_related("user").order_by("-created_at")
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        if not queryset.exists():
+            return Response({"message": "No comments found"}, status=status.HTTP_404_NOT_FOUND)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+

@@ -1,0 +1,128 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+<section class="genrewise-section">
+  <div class="container">
+    <div class="block_area block_area_genrewise">
+      <div class="block_area-header mb-4">
+        <div class="bah-heading">
+          <h2 class="cat-heading">Genre Wise Movies</h2>
+        </div>
+      </div>
+
+      <div id="genrewise-container" class="genrewise-container">
+        <!-- Genre sections will be injected dynamically -->
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const container = document.getElementById("genrewise-container");
+
+  try {
+    const res = await fetch("http://127.0.0.1:8000/sanibox/master/genre/movies/lists/");
+    const { data } = await res.json();
+    console.log(data);
+    container.innerHTML = "";
+
+    Object.entries(data).forEach(([genreName, movies]) => {
+      // Ensure movies is always an array
+      movies = movies || [];
+
+      // Capitalize genre name
+      const genreTitle = genreName
+        .split(" ")
+        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
+
+      const sectionHTML = `
+        <section class="anime-trending mb-5">
+          <div class="container">
+            <div class="block_area block_area_trending">
+              <div class="block_area-header">
+                <div class="bah-heading">
+                  <h2 class="cat-heading">${genreTitle}</h2>
+                </div>
+              </div>
+              <div class="block_area-content">
+                <div class="swiper genre-swiper">
+                  <div class="swiper-wrapper">
+                    ${movies.map(movie => `
+                      <div class="swiper-slide">
+                        <div class="card">
+                          <div class="poster">
+                            <img src="${movie.thumbnail_image || 'https://placehold.co/150x200'}" alt="${movie.title || ''}">
+                          </div>
+                          <div class="details">
+                            <h1>${movie.title || ''}</h1>
+                            <h2>${movie.year || ''} • ${movie.maturity_rating || ''}</h2>
+
+                            <div class="rating">
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                              <i class="far fa-star"></i>
+                              <span>${((movie.trending_score || 0) / 100).toFixed(1)}/5</span>
+                            </div>
+
+                            <div class="tags">
+                              ${(movie.genre || []).map(g => `<span class="tag">${g}</span>`).join("")}
+                            </div>
+
+                            <p class="desc">${movie.movie_description || ''}</p>
+
+                            <div class="cast">
+                              <ul>
+                                <li>
+                                  <img src="${movie.main_heros_image || "https://placehold.co/40x40"}" alt="Hero">
+                                </li>
+                              </ul>
+                            </div>
+
+                            <a href="http://127.0.0.1:8000/sanibox/moviepage/${movie.movie_code || ''}/" style="text-decoration:none;">
+                              <div class="play-circle">
+                                <i class="fa fa-play"></i>
+                              </div>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    `).join("")}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      `;
+
+      container.insertAdjacentHTML("beforeend", sectionHTML);
+    });
+
+    // Initialize Swiper sliders
+    document.querySelectorAll(".genre-swiper").forEach(swiperEl => {
+      new Swiper(swiperEl, {
+        slidesPerView: 5,
+        spaceBetween: 20,
+        navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+        breakpoints: {
+          0: { slidesPerView: 2 },
+          768: { slidesPerView: 3 },
+          1024: { slidesPerView: 5 },
+        },
+      });
+    });
+
+  } catch (error) {
+    console.error("Error loading genre-wise movies:", error);
+    container.innerHTML = `<p class="text-danger">Failed to load genre-wise movies.</p>`;
+  }
+});
+
+</script>
+{% endblock %}

@@ -24,7 +24,7 @@
     <button class="close-btn"><i class="fas fa-chevron-left"></i> Close menu</button>
 
     <div class="sidebar-content">
-        <button class="community-btn"><i class="fas fa-film"></i> Movies</button>
+        <a href = 'http://127.0.0.1:8000/sanibox/genre/moviepage/'><button class="community-btn"><i class="fas fa-film"></i> Movies</button></a>
         <div id="loading">Loading genres...</div>
         <ul class="menu" id="genre-list"></ul>
 
@@ -184,413 +184,263 @@
         <script src="{% static 'js/swiper-bundle.min.js' %}"></script>
         
         <script>
-            const swiper = new Swiper('.trending-swiper', {
+            // === Utility Functions ===
+        const getCookie = (name) => {
+            const cookies = document.cookie?.split(";") || [];
+            for (const cookie of cookies) {
+                const [key, value] = cookie.trim().split("=");
+                if (key === name) return decodeURIComponent(value);
+            }
+            return null;
+        };
+
+        const fetchJSON = async (url) => {
+            const res = await fetch(url);
+            return res.json();
+        };
+
+        // === Swiper Initialization ===
+        const initSwipers = () => {
+            new Swiper(".trending-swiper", {
                 slidesPerView: 5,
                 spaceBetween: 20,
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
+                navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
                 breakpoints: {
                     0: { slidesPerView: 2 },
                     768: { slidesPerView: 3 },
                     1024: { slidesPerView: 5 },
                 },
             });
-            const heroSwiper = new Swiper('.hero-slider', {
+
+            new Swiper(".hero-slider", {
                 loop: true,
-                autoplay: {
-                delay: 4000,
-                disableOnInteraction: false,
-                },
-                pagination: {
-                el: '.hero-slider .swiper-pagination',
-                clickable: true,
-                },
-                effect: 'fade',
-                fadeEffect: {
-                crossFade: true,
-                },
+                autoplay: { delay: 4000, disableOnInteraction: false },
+                pagination: { el: ".hero-slider .swiper-pagination", clickable: true },
+                effect: "fade",
+                fadeEffect: { crossFade: true },
             });
-            const menuBtn = document.getElementById("menu-btn");
-            const sidebar = document.getElementById("sidebar");
-            const closeBtn = document.querySelector(".close-btn");
+        };
 
-            menuBtn.addEventListener("click", () => {
-                sidebar.classList.add("active");
+        // === Sidebar ===
+        const initSidebar = () => {
+            document.getElementById("menu-btn")?.addEventListener("click", () => {
+                document.getElementById("sidebar")?.classList.add("active");
             });
+            document.querySelector(".close-btn")?.addEventListener("click", () => {
+                document.getElementById("sidebar")?.classList.remove("active");
+            });
+        };
 
-            closeBtn.addEventListener("click", () => {
-                sidebar.classList.remove("active");
-            });
+        // === Theme Toggle ===
+        const initThemeToggle = () => {
             const themeIcon = document.getElementById("theme-icon");
-            const body = document.body;
-
-            // Default: dark mode
-            let isDarkMode = true;
-
+            if (!themeIcon) return;
+            let isDark = true;
             themeIcon.addEventListener("click", () => {
-                isDarkMode = !isDarkMode;
-                body.classList.toggle("light-mode", !isDarkMode);
-
-                // Change icon
-                themeIcon.classList.toggle("fa-sun", !isDarkMode);
-                themeIcon.classList.toggle("fa-moon", isDarkMode);
+                isDark = !isDark;
+                document.body.classList.toggle("light-mode", !isDark);
+                themeIcon.classList.toggle("fa-sun", !isDark);
+                themeIcon.classList.toggle("fa-moon", isDark);
             });
+        };
 
-            const loginBtn = document.querySelector(".login-btn"); // your navbar or trigger button
+        // === Modals ===
+        const initModals = () => {
             const loginModal = document.getElementById("loginModal");
             const registerModal = document.getElementById("registerModal");
-            const closeButtons = document.querySelectorAll(".close-btn-modal");
 
-            // Open login modal
-            if (loginBtn) {
-            loginBtn.addEventListener("click", () => {
+            // Open login
+            document.querySelector(".login-btn")?.addEventListener("click", () => {
                 loginModal.style.display = "flex";
                 document.body.style.overflow = "hidden";
             });
-            }
 
-            // Close modals (× button)
-            closeButtons.forEach(btn => {
-            btn.addEventListener("click", () => {
-                loginModal.style.display = "none";
-                registerModal.style.display = "none";
-                document.body.style.overflow = "auto";
-            });
-            });
+            // Close modals
+            document.querySelectorAll(".close-btn-modal").forEach(btn =>
+                btn.addEventListener("click", () => {
+                    loginModal.style.display = registerModal.style.display = "none";
+                    document.body.style.overflow = "auto";
+                })
+            );
 
-            // Close when clicking outside the box
+            // Outside click close
             [loginModal, registerModal].forEach(modal => {
-            modal.addEventListener("click", e => {
-                if (e.target === modal) {
-                modal.style.display = "none";
-                document.body.style.overflow = "auto";
-                }
-            });
+                modal?.addEventListener("click", (e) => {
+                    if (e.target === modal) {
+                        modal.style.display = "none";
+                        document.body.style.overflow = "auto";
+                    }
+                });
             });
 
-            // Switch: Login → Register
-            const openRegisterLink = document.querySelector(".open-register");
-            if (openRegisterLink) {
-            openRegisterLink.addEventListener("click", (e) => {
+            // Switch login/register
+            document.querySelector(".open-register")?.addEventListener("click", (e) => {
                 e.preventDefault();
                 loginModal.style.display = "none";
                 registerModal.style.display = "flex";
             });
-            }
 
-            // Switch: Register → Login
-            const openLoginLink = document.querySelector(".open-login");
-            if (openLoginLink) {
-            openLoginLink.addEventListener("click", (e) => {
+            document.querySelector(".open-login")?.addEventListener("click", (e) => {
                 e.preventDefault();
                 registerModal.style.display = "none";
                 loginModal.style.display = "flex";
             });
-            }
-            async function loadGenres() {
+        };
+
+        // === Genre Loader ===
+        const loadGenres = async () => {
             const loading = document.getElementById("loading");
             const genreList = document.getElementById("genre-list");
+            if (!genreList) return;
             loading.style.display = "block";
-
             try {
-                const response = await fetch("http://127.0.0.1:8000/sanibox/master/genre/");
-                const result = await response.json();
-                const genres = result.data;
-                console.log(genres)
-                genreList.innerHTML = "";
-
-                if (Array.isArray(genres)) {
-                genres.forEach(g => {
-                    const li = document.createElement("li");
-                    li.textContent = g.category_name;
-                    genreList.appendChild(li);
-                });
-                } else {
-                genreList.innerHTML = "<li>No genres found.</li>";
-                }
-            } catch (err) {
-                console.error(err);
+                const { data } = await fetchJSON("http://127.0.0.1:8000/sanibox/master/genre/");
+                genreList.innerHTML = Array.isArray(data)
+                    ? data.map(g => `<li>${g.category_name}</li>`).join("")
+                    : "<li>No genres found.</li>";
+            } catch {
                 genreList.innerHTML = "<li>Failed to load genres.</li>";
             } finally {
                 loading.style.display = "none";
             }
-            }
+        };
 
-            document.addEventListener("DOMContentLoaded", loadGenres);
+        // === Banners Loader ===
+        const loadBanners = async () => {
+            const bannerContainer = document.getElementById("banner-container");
+            if (!bannerContainer) return;
 
-            document.addEventListener("DOMContentLoaded", function () {
-                const bannerContainer = document.getElementById("banner-container");
-
-                fetch("http://127.0.0.1:8000/sanibox/master/banner/")
-                    .then((response) => response.json())
-                    .then((data) => {
-                    const banners = data.data;
-
-                    banners.forEach((banner, index) => {
-                        const slide = document.createElement("div");
-                        slide.classList.add("swiper-slide");
-
-                        slide.innerHTML = `
+            try {
+                const { data: banners } = await fetchJSON("http://127.0.0.1:8000/sanibox/master/banner/");
+                bannerContainer.innerHTML = banners.map((banner, i) => `
+                    <div class="swiper-slide">
                         <div class="hero-banner">
-                            <div class="hero-bg">
-                            <img src="${banner.image}" alt="${banner.title}">
-                            </div>
-
+                            <div class="hero-bg"><img src="${banner.image}" alt="${banner.title}"></div>
                             <div class="hero-overlay"></div>
-
                             <div class="hero-content">
-                            <p class="spotlight">#${index + 1} Spotlight</p>
-                            <h1 class="hero-title">${banner.title}</h1>
-
-                            <div class="hero-meta">
-                                <span><i class="fas fa-tv"></i> TV</span>
-                                <span><i class="fas fa-clock"></i> ${banner.total_episodes_duration}m</span>
-                                <span><i class="fas fa-calendar"></i> ${new Date().toDateString()}</span>
-                                <span class="tag hd">${banner.maturity_rating.toUpperCase()}</span>
-                                <span class="tag sub">${banner.language.join(", ").toUpperCase()}</span>
-                            </div>
-
-                            <p class="hero-desc">${banner.movie_description}</p>
-
-                            <div class="hero-buttons">
-                                <a href="http://127.0.0.1:8000/sanibox/moviepage/${banner.movie_code}/">
-                                <button class="btn watch"><i class="fas fa-play"></i> Watch Now</button>
-                                </a>
-                            </div>
+                                <p class="spotlight">#${i + 1} Spotlight</p>
+                                <h1 class="hero-title">${banner.title}</h1>
+                                <div class="hero-meta">
+                                    <span><i class="fas fa-tv"></i> TV</span>
+                                    <span><i class="fas fa-clock"></i> ${banner.total_episodes_duration}m</span>
+                                    <span><i class="fas fa-calendar"></i> ${new Date().toDateString()}</span>
+                                    <span class="tag hd">${banner.maturity_rating.toUpperCase()}</span>
+                                    <span class="tag sub">${banner.language.join(", ").toUpperCase()}</span>
+                                </div>
+                                <p class="hero-desc">${banner.movie_description}</p>
+                                <div class="hero-buttons">
+                                    <a href="http://127.0.0.1:8000/sanibox/moviepage/${banner.movie_code}/">
+                                        <button class="btn watch"><i class="fas fa-play"></i> Watch Now</button>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                        `;
-
-                        bannerContainer.appendChild(slide);
-                    });
-
-                    // ✅ Initialize Swiper after banners are loaded
-                    new Swiper(".hero-slider", {
-                        loop: true,
-                        autoplay: { delay: 4000, disableOnInteraction: false },
-                        pagination: { el: ".swiper-pagination", clickable: true },
-                        navigation: {
-                        nextEl: ".swiper-button-next",
-                        prevEl: ".swiper-button-prev",
-                        },
-                        effect: "fade",
-                    });
-                    })
-                    .catch((error) => console.error("Error fetching banners:", error));
-            });
-
-            async function loadTrendingMovies() {
-            try {
-                const res = await fetch("http://127.0.0.1:8000/sanibox/master/movie/trending/");
-                const { data } = await res.json();
-                const wrapper = document.getElementById("trending-wrapper");
-                wrapper.innerHTML = "";
-
-                data.forEach(movie => {
-                const genres = movie.genre.map(g => `<span class="tag">${g}</span>`).join(" ");
-                
-                const card = `
-                    <div class="card">
-                    <div class="poster">
-                        <img src="${movie.thumbnail_image}" alt="${movie.title}">
                     </div>
-                    <div class="details">
-                        <h1>${movie.title}</h1>
-                        <h2>${movie.year} • ${movie.maturity_rating}</h2>
-
-                        <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <span>${(movie.trending_score / 100).toFixed(1)}/5</span>
-                        </div>
-
-                        <div class="tags">
-                        ${genres}
-                        </div>
-
-                        <p class="desc">${movie.movie_description}</p>
-
-                        <div class="cast">
-                        <ul>
-                            <li>
-                            <img src="${movie.main_heros_image || "https://placehold.co/40x40"}" 
-                                alt="Hero" 
-                                title="Hero">
-                            </li>
-                        </ul>
-                        </div>
-
-                        <a href="http://127.0.0.1:8000/sanibox/moviepage/${movie.movie_code}/" style="text-decoration: none;">   
-                            <div class="play-circle">
-                                <i class="fa fa-play"></i>
-                            </div>
-                        </a>
-                    </div>
-                    </div>
-                `;
-
-                wrapper.insertAdjacentHTML("beforeend", card);
-                });
+                `).join("");
+                initSwipers();
             } catch (err) {
-                console.error("Error fetching trending movies:", err);
+                console.error("Error fetching banners:", err);
             }
-            }
+        };
 
-            document.addEventListener("DOMContentLoaded", loadTrendingMovies);
-
-             async function loadNewMovies() {
+        // === Movie Loader (Reusable) ===
+        const loadMovies = async (url, wrapperId) => {
+            const wrapper = document.getElementById(wrapperId);
+            if (!wrapper) return;
             try {
-                const res = await fetch("http://127.0.0.1:8000/sanibox/master/movie/trending/");
-                const { data } = await res.json();
-                const wrapper = document.getElementById("New-wrapper");
-                wrapper.innerHTML = "";
-
-                data.forEach(movie => {
-                const genres = movie.genre.map(g => `<span class="tag">${g}</span>`).join(" ");
-                
-                const card = `
+                const { data } = await fetchJSON(url);
+                wrapper.innerHTML = data.map(movie => `
                     <div class="card">
-                    <div class="poster">
-                        <img src="${movie.thumbnail_image}" alt="${movie.title}">
-                    </div>
-                    <div class="details">
-                        <h1>${movie.title}</h1>
-                        <h2>${movie.year} • ${movie.maturity_rating}</h2>
-
-                        <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <span>${(movie.trending_score / 100).toFixed(1)}/5</span>
-                        </div>
-
-                        <div class="tags">
-                        ${genres}
-                        </div>
-
-                        <p class="desc">${movie.movie_description}</p>
-
-                        <div class="cast">
-                        <ul>
-                            <li>
-                            <img src="${movie.main_heros_image || "https://placehold.co/40x40"}" 
-                                alt="Hero" 
-                                title="Hero">
-                            </li>
-                        </ul>
-                        </div>
-                        <a href="http://127.0.0.1:8000/sanibox/moviepage/${movie.movie_code}/" style="text-decoration: none;">   
-                            <div class="play-circle">
-                                <i class="fa fa-play"></i>
+                        <div class="poster"><img src="${movie.thumbnail_image}" alt="${movie.title}"></div>
+                        <div class="details">
+                            <h1>${movie.title}</h1>
+                            <h2>${movie.year} • ${movie.maturity_rating}</h2>
+                            <div class="rating">${"<i class='fas fa-star'></i>".repeat(4)}<i class='far fa-star'></i>
+                                <span>${(movie.trending_score / 100).toFixed(1)}/5</span>
                             </div>
-                        </a>
-                    </div>
-                    </div>
-                `;
-
-                wrapper.insertAdjacentHTML("beforeend", card);
-                });
+                            <div class="tags">${movie.genre.map(g => `<span class="tag">${g}</span>`).join("")}</div>
+                            <p class="desc">${movie.movie_description}</p>
+                            <div class="cast">
+                                <ul><li><img src="${movie.main_heros_image || "https://placehold.co/40x40"}" alt="Hero"></li></ul>
+                            </div>
+                            <a href="http://127.0.0.1:8000/sanibox/moviepage/${movie.movie_code}/" style="text-decoration:none;">
+                                <div class="play-circle"><i class="fa fa-play"></i></div>
+                            </a>
+                        </div>
+                    </div>`).join("");
             } catch (err) {
-                console.error("Error fetching trending movies:", err);
+                console.error("Error fetching movies:", err);
             }
-            }
+        };
 
-            document.addEventListener("DOMContentLoaded", loadNewMovies);
-
-            document.addEventListener("DOMContentLoaded", function () {
-            const googleBtns = document.querySelectorAll(".btn-social.google");
+        // === Google SSO Integration ===
+        const initGoogleLogin = () => {
+            const navRight = document.querySelector(".nav-right");
             const loginModal = document.getElementById("loginModal");
             const registerModal = document.getElementById("registerModal");
-            const navRight = document.querySelector(".nav-right");
 
-            // === 1️⃣ Handle Google Login Click (from any modal)
-            googleBtns.forEach((btn) => {
+            document.querySelectorAll(".btn-social.google").forEach(btn => {
                 btn.addEventListener("click", (e) => {
-                e.preventDefault();
-
-                // Hide modals
-                if (loginModal) loginModal.style.display = "none";
-                if (registerModal) registerModal.style.display = "none";
-                document.body.style.overflow = "";
-
-                // Save progress marker
-                localStorage.setItem("google_login_in_progress", "true");
-
-                // Redirect to Django Allauth Google Login
-                window.location.href = "http://127.0.0.1:8000/accounts/google/login/";
+                    e.preventDefault();
+                    [loginModal, registerModal].forEach(m => m && (m.style.display = "none"));
+                    document.body.style.overflow = "";
+                    localStorage.setItem("google_login_in_progress", "true");
+                    window.location.href = "http://127.0.0.1:8000/accounts/google/login/";
                 });
             });
 
-            // === 2️⃣ Check if returned from Google
-            async function checkLoginStatus() {
-                try {
-                const res = await fetch("http://127.0.0.1:8000/sanibox/user/session/");
-                const data = await res.json();
-
-                // If returning from redirect, clean up
-                if (localStorage.getItem("google_login_in_progress")) {
-                    if (loginModal) loginModal.style.display = "none";
-                    if (registerModal) registerModal.style.display = "none";
-                    document.body.style.overflow = "";
-                    localStorage.removeItem("google_login_in_progress");
-                }
-                
-                if (data.is_authenticated) {
-                    navRight.innerHTML = `
-                    <div class="theme-toggle">
-                        <i id="theme-icon" class="fas fa-moon"></i>
-                    </div>
+            const renderUser = (data) => {
+                navRight.innerHTML = `
+                    <div class="theme-toggle"><i id="theme-icon" class="fas fa-moon"></i></div>
                     <div class="user-info d-flex align-items-center gap-2">
-                        ${
-                        data.avatar
-                            ? `<img src="${data.avatar}" class="user-avatar rounded-circle" style="width:32px; height:32px;">`
-                            : `<i class="bi bi-person-circle fs-4"></i>`
-                        }
+                        ${data.avatar
+                            ? `<img src="${data.avatar}" class="user-avatar rounded-circle" style="width:32px;height:32px;">`
+                            : `<i class="bi bi-person-circle fs-4"></i>`}
                         <span>${data.username || "User"}</span>
                     </div>
-                    <button class="logout-btn btn btn-sm btn-danger ms-3">Logout</button>
-                    `;
-
-                    // Attach logout event
-                    const logoutBtn = document.querySelector(".logout-btn");
-                    logoutBtn.addEventListener("click", async () => {
+                    <button class="logout-btn btn btn-sm ms-3" style="
+                        background:#ff6bcb;color:#fff;border:none;border-radius:8px;
+                        padding:6px 14px;font-weight:500;transition:.3s;">Logout</button>`;
+                const logoutBtn = navRight.querySelector(".logout-btn");
+                logoutBtn.addEventListener("mouseover", () => logoutBtn.style.background = "#ff4fa8");
+                logoutBtn.addEventListener("mouseout", () => logoutBtn.style.background = "#ff6bcb");
+                logoutBtn.addEventListener("click", async () => {
                     await fetch("http://127.0.0.1:8000/accounts/logout/", {
                         method: "POST",
                         headers: { "X-CSRFToken": getCookie("csrftoken") },
                     });
                     location.reload();
-                    });
-                }
-                } catch (err) {
-                console.error("Login check failed:", err);
-                }
-            }
+                });
+            };
 
-            // === 3️⃣ Cookie Helper for CSRF ===
-            function getCookie(name) {
-                let cookieValue = null;
-                if (document.cookie && document.cookie !== "") {
-                const cookies = document.cookie.split(";");
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.startsWith(name + "=")) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
+            const checkLoginStatus = async () => {
+                try {
+                    const data = await fetchJSON("http://127.0.0.1:8000/sanibox/user/session/");
+                    if (localStorage.getItem("google_login_in_progress")) {
+                        [loginModal, registerModal].forEach(m => m && (m.style.display = "none"));
+                        document.body.style.overflow = "";
+                        localStorage.removeItem("google_login_in_progress");
                     }
+                    if (data.is_authenticated) renderUser(data);
+                } catch (err) {
+                    console.error("Login check failed:", err);
                 }
-                }
-                return cookieValue;
-            }
-
+            };
             checkLoginStatus();
-            });
+        };
+
+        // === Initialize Everything ===
+        document.addEventListener("DOMContentLoaded", () => {
+            initSidebar();
+            initThemeToggle();
+            initModals();
+            loadGenres();
+            loadBanners();
+            loadMovies("http://127.0.0.1:8000/sanibox/master/movie/trending/", "trending-wrapper");
+            loadMovies("http://127.0.0.1:8000/sanibox/master/movie/trending/", "New-wrapper");
+            initGoogleLogin();
+        });
+        
                 
         </script>
         
