@@ -2,10 +2,6 @@ from datetime import date
 from rest_framework import serializers
 from .models import *
 
-class MasterMovieSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MasterMovie
-        fields = "__all__"
 
 
 class TitleCaseSerializer(serializers.ModelSerializer):
@@ -243,5 +239,234 @@ class NewMovieSerializer(TitleCaseSerializer):
     def get_movie_code(self,obj):
         return obj.movie_code if obj.movie_code else None
     
+class GenreMovieItemSerializer(serializers.ModelSerializer):
+    year = serializers.SerializerMethodField()
+    maturity_rating = serializers.SerializerMethodField()
+    total_episodes_duration = serializers.SerializerMethodField()
+    movie_description = serializers.SerializerMethodField()
+    main_heros_image = serializers.SerializerMethodField()
+    title = serializers.SerializerMethodField()
 
-# class MainMovieSerializer(TitleCaseSerializer):
+    class Meta:
+        model = MasterMovie
+        fields = [
+            "title",
+            "thumbnail_image",
+            "like",
+            "views",
+            "year",
+            "maturity_rating",
+            "total_episodes_duration",
+            "movie_description",
+            "main_heros_image",
+        ]
+
+    # --- Capitalize every text field ---
+    def get_title(self, obj):
+        return obj.movie_title.title() if obj.movie_title else None
+
+    def get_year(self, obj):
+        return obj.release_date.year if obj.release_date else None
+
+    def get_maturity_rating(self, obj):
+        return obj.maturity_rating.rating.title() if obj.maturity_rating else None
+
+    def get_total_episodes_duration(self, obj):
+        total = (
+            MasterEpisodes.objects.filter(master_movie=obj)
+            .aggregate(total=models.Sum("total_episodes_duration"))["total"]
+            or 0
+        )
+        return total or None
+
+    def get_movie_description(self, obj):
+        if obj.movie_description:
+            text = obj.movie_description.strip().title()
+            words = text.split()
+            return " ".join(words[:15]) + ("..." if len(words) > 15 else "")
+        return None
+
+    def get_main_heros_image(self, obj):
+        details = MasterMovieDetails.objects.filter(master_movie=obj).first()
+        if details and details.main_heros:
+            return details.main_heros.image  # Only image, not name
+        return None
+
+
+class GenreWiseGroupedSerializer(serializers.Serializer):
+    def to_representation(self, queryset):
+        grouped_data = {}
+
+        for movie in queryset:
+            for genre in movie.genre.all():
+                genre_name = genre.category_name.title()
+                if genre_name not in grouped_data:
+                    grouped_data[genre_name] = []
+
+                grouped_data[genre_name].append({
+                    "title": movie.movie_title.title(),
+                    "thumbnail_image": movie.thumbnail_image,
+                    "like": movie.like,
+                    "views": movie.views,
+                    "year": movie.release_date.year if movie.release_date else None,
+                    "maturity_rating": movie.maturity_rating.rating.title() if movie.maturity_rating else None,
+                    "total_episodes_duration": (
+                        MasterEpisodes.objects.filter(master_movie=movie)
+                        .aggregate(total=models.Sum("total_episodes_duration"))["total"] or 0
+                    ),
+                    "movie_description": " ".join(movie.movie_description.split()[:15]) + (
+                        "..." if len(movie.movie_description.split()) > 15 else ""
+                    ) if movie.movie_description else None,
+                    "main_heros_image": (
+                        MasterMovieDetails.objects.filter(master_movie=movie).first().main_heros.image
+                        if MasterMovieDetails.objects.filter(master_movie=movie).exists()
+                        else None
+                    ),
+                    "movie_code": movie.movie_code,
+                })
+
+        return grouped_data
+    
+
+
+class MasterEpisodesSerializer(TitleCaseSerializer):
+    titlecase_fields = ["episodes_title", "episodes_description"]
+    class Meta:
+        model = MasterEpisodes
+        fields = ['episodes_order', 'episodes_title', 'episodes_description','main_source', 'thumbnail_image', 'release_date', 'is_released']
+
+    # def to_representation(self, instance):
+    #     data = super().to_representation(instance)
+    #     for key, value in data.items():
+    #         if isinstance(value, str):
+    #             data[key] = value.title()
+    #     return data
+
+
+class MasterMovieDetailsSerializer(serializers.ModelSerializer):
+    main_heros_image = serializers.SerializerMethodField()
+    main_director_name = serializers.SerializerMethodField()
+    cast_images = serializers.SerializerMethodField()
+
+    class Meta:
+        model = MasterMovieDetails
+        fields = ['main_heros_image', 'main_director_name', 'cast_images']
+
+    def get_main_heros_image(self, obj):
+        return obj.main_heros.image if obj.main_heros else None
+
+    def get_main_director_name(self, obj):
+        return obj.main_director.director_name.title() if obj.main_director else None
+
+    def get_cast_images(self, obj):
+        return [cast.image for cast in obj.cast.all() if cast.image]
+
+
+class MasterMovieSerializer(TitleCaseSerializer):
+    titlecase_fields = ["movie_title", "movie_description", "maturity_rating"]
+
+    movie_details = serializers.SerializerMethodField()
+    episodes = serializers.SerializerMethodField()
+    maturity_rating = serializers.SerializerMethodField()
+    language = serializers.SerializerMethodField()
+    total_episodes_duration = serializers.SerializerMethodField()
+    age = serializers.SerializerMethodField()
+
+    class Meta:
+        model = MasterMovie
+        fields = [
+            'movie_code', 'movie_title', 'movie_description', 'thumbnail_image',
+            'main_movie_banner_image', 'movie_trailer', "maturity_rating","age",'like', 'views',
+            'release_date', 'is_released','language',"total_episodes_duration",
+            'movie_details', 'episodes',
+        ]
+
+
+    def get_maturity_rating(self,obj):
+        return obj.maturity_rating.rating.title() if obj.maturity_rating else None
+    
+    def get_language(self,obj):
+        return [l.language.title() for l in obj.language.all()] if obj else []
+
+    def get_movie_details(self, obj):
+        details = MasterMovieDetails.objects.filter(master_movie=obj).first()
+        return MasterMovieDetailsSerializer(details).data if details else None
+
+    def get_episodes(self, obj):
+        eps = MasterEpisodes.objects.filter(master_movie=obj).order_by('episodes_order')
+        return MasterEpisodesSerializer(eps, many=True).data
+    
+    def get_total_episodes_duration(self, obj):
+        total = (
+            MasterEpisodes.objects.filter(master_movie=obj)
+            .aggregate(total=models.Sum("total_episodes_duration"))["total"]
+            or 0
+        )
+        return total or None
+    
+    def get_age(self,obj):
+        return obj.maturity_rating.age if obj.maturity_rating else None
+
+    # def to_representation(self, instance):
+    #     data = super().to_representation(instance)
+    #     for key, value in data.items():
+    #         if isinstance(value, str):
+    #             data[key] = value.title()
+    #     return data
+
+
+# CAST & DIRECTOR SERIALIZERS
+
+class MasterCastSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MasterCast
+        fields = ["cast_code", "cast_name", "image"]
+
+
+class MasterDirectorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MasterDirector
+        fields = ["director_code", "director_name", "image"]
+
+
+class MasterHeroSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MasterHeros
+        fields = ["hero_code", "hero_name", "image"]
+
+
+class MasterMovieDetailsSerializer(serializers.ModelSerializer):
+    main_heros = MasterHeroSerializer()
+    main_director = MasterDirectorSerializer()
+    cast = MasterCastSerializer(many=True)
+
+    class Meta:
+        model = MasterMovieDetails
+        fields = ["main_heros", "main_director", "cast"]
+
+
+# USER COMMENT SERIALIZERS 
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ["user", "profile_photo"]
+
+    def to_representation(self, instance):
+        return {
+            "username": instance.user.username,
+            "profile_photo": instance.profile_photo or None
+        }
+
+
+class UserCommentsSerializer(serializers.ModelSerializer):
+    user = UserProfileSerializer()
+
+    class Meta:
+        model = UserComments
+        fields = ["usercommentscode", "user", "user_comments", "created_at"]
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data["time_ago"] = instance.created_at.strftime("%b %d, %Y")  # you can change to relative time later
+        return data

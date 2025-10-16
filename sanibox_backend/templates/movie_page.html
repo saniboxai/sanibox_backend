@@ -6,135 +6,363 @@
 <link rel="stylesheet" href="{% static 'css/commentcastsection.css' %}">
 <link rel="stylesheet" href="{% static 'css/relatedmovie.css' %}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-
 {% endblock %}
 
 <nav class="breadcrumb-bar p-3 px-4">
-    <a href="#" class="breadcrumb-link">Home</a> › 
-    <a href="#" class="breadcrumb-link">Movies</a> › 
-    <span class="text-light">John wick 2</span>
-  </nav>
+  <a href="/" class="breadcrumb-link">Home</a> › 
+  <a href="/movies" class="breadcrumb-link">Movies</a> › 
+  <span class="text-light" id="movieTitleBreadcrumb">Loading...</span>
+</nav>
 
-  <div class="container-fluid px-4 py-3">
-    <div class="row g-3">
+<div class="container-fluid px-4 py-3">
+  <div class="row g-3">
 
-      <!-- LEFT SIDEBAR: Episode List -->
-      <div class="col-lg-2 col-md-3 episode-sidebar p-3">
-        <h6 class="text-light mb-3">List of Episodes:</h6>
-        <div class="d-flex align-items-center mb-3">
-          <select class="form-select form-select-sm bg-dark text-light border-0">
-            <option>EPS: 001-100</option>
-            <option>EPS: 101-200</option>
-          </select>
-        </div>
-        <div class="episode-grid">
-          <!-- 100 Dummy Episodes -->
-          <button class="ep-btn active">1</button>
-          <button class="ep-btn">2</button>
-          <button class="ep-btn">3</button>
-          <button class="ep-btn">4</button>
-          <button class="ep-btn">5</button>
-          <button class="ep-btn">6</button>
-          <button class="ep-btn">7</button>
-          <button class="ep-btn">8</button>
-          <button class="ep-btn">9</button>
-          <button class="ep-btn">10</button>
-          <button class="ep-btn">11</button>
-          <button class="ep-btn">12</button>
-          <button class="ep-btn">13</button>
-          <button class="ep-btn">14</button>
-          <button class="ep-btn">15</button>
-          <button class="ep-btn">16</button>
-          <!-- Add more buttons as needed -->
-        </div>
+    <!-- LEFT SIDEBAR: Episode List -->
+    <div class="col-lg-2 col-md-3 episode-sidebar p-3">
+      <h6 class="text-light mb-3">List of Episodes:</h6>
+      <div class="episode-grid" id="episodeList"></div>
+    </div>
+
+    <!-- CENTER: Video Player -->
+    <div class="col-lg-7 col-md-6">
+      <div class="video-container position-relative">
+        <video id="animeVideo" controls width="100%" poster="">
+          <source id="videoSource" src="" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
       </div>
 
-      <!-- CENTER: Video Player -->
-      <div class="col-lg-7 col-md-6">
-        <div class="video-container position-relative">
-          <video id="animeVideo" controls poster="https://via.placeholder.com/800x450/000000/ffffff?text=Loading+Video..." width="100%">
-            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
+      <div class="player-info mt-3 p-3">
+        <div class="alert alert-dark text-center py-2 mb-3" id="episodeInfo">
+          Loading episode info...
         </div>
-
-        <!-- Episode Info + Controls -->
-        <div class="player-info mt-3 p-3">
-          <div class="alert alert-dark text-center py-2 mb-3">
-            You are watching <strong>Episode 1</strong><br>
-            If current server doesn’t work please try other servers beside.
-          </div>
-          <div class="d-flex justify-content-center gap-2">
-            <button class="btn btn-sm btn-outline-light">English</button>
-            <button class="btn btn-sm btn-primary">Tamil</button>
-            <button class="btn btn-sm btn-outline-light">Hindi</button>
-          </div>
-        </div>
-
-        <!-- Bottom Info Bar -->
-        <div class="next-ep-bar mt-3 p-3 text-center">
-          <span class="text-info">📅 Estimated the next episode will come at 10/12/2025, 9:15:00 PM</span>
-        </div>
+        <div class="d-flex justify-content-center gap-2" id="languageButtons"></div>
       </div>
 
-      <!-- RIGHT SIDEBAR: Anime Info -->
-      <div class="col-lg-3 col-md-3">
-        <div class="anime-info p-3">
-          <div class="shine-card mb-3">
-                <img src="https://www.tallengestore.com/cdn/shop/products/JohnWickChapter2-KeanuReeves-HollywoodEnglishActionMovieArtPoster_d7bfaa17-129e-4abc-acf9-1debcdec459b.jpg?v=1649071686" alt="John Wick" />
-            </div>
-          <h5 class="text-light">John Wick 2</h5>
-          <div class="tags mb-2">
-            <span class="badge bg-warning" style="color: black;">18+</span>
-            <span class="badge bg-secondary">PG-13</span>
-            <span class="badge bg-success">HD</span>
-            <span class="badge bg-info">TV</span>
-            <span class="badge bg-dark">24m</span>
-          </div>
-          <p class="text small">
-            Retired super-assassin John Wick's plans to resume a quiet civilian life are cut short when Italian gangster Santino D'Antonio shows up on his doorstep with a gold marker, compelling him to repay past favours. Ordered by Winston, the kingpin of secret assassin society The Continental, to respect the organisation's ancient code, Wick reluctantly accepts the assignment to travel to Rome to take out D'Antonio's sister, the ruthless capo atop the Italian Camorra crime syndicate.
-          </p>
-          <button class="btn btn-outline-light btn-sm mb-3">
-            <i class="bi bi-plus-lg me-1"></i> Add to Watchlist
-           </button>
+      <div class="next-ep-bar mt-3 p-3 text-center">
+        <span class="text-info" id="nextEpisodeInfo">📅 Estimated next episode loading...</span>
+      </div>
+    </div>
 
-          <!-- Rating -->
+    <!-- RIGHT SIDEBAR: Movie Info -->
+    <div class="col-lg-3 col-md-3">
+      <div class="anime-info p-3">
+        <div class="shine-card mb-3">
+          <img id="moviePoster" src="" alt="Poster" />
+        </div>
+        <h5 class="text-light" id="movieTitle">Loading...</h5>
+        <div class="tags mb-2" id="movieTags"></div>
+        <p class="text small" id="movieDescription">Loading description...</p>
+
+        <button class="btn btn-outline-light btn-sm mb-3">
+          <i class="bi bi-plus-lg me-1"></i> Add to Watchlist
+        </button>
+        <button class="btn btn-trailer w-100 mb-3" id="watchTrailerBtn">
+          <i class="bi bi-play-circle-fill me-1"></i> Watch Trailer
+        </button>
+        <div id="trailerModal" class="trailer-modal">
+          <div class="trailer-content">
+            <button class="close-trailer">&times;</button>
+            <video id="trailerVideo" controls autoplay width="100%">
+              <source id="trailerSource" src="" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+
         <div class="rating-box p-3 rounded mt-4 locked-section">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-                <strong class="text-warning fs-5">⭐ 9.4</strong>
-                <span class="text">
-                <i class="bi bi-lock-fill me-1"></i> Locked
-                </span>
-            </div>
-            <p class="small text mb-1">What do you think about this movie?</p>
-            <div class="d-flex justify-content-between text-center">
-                <button class="rate-btn" disabled>😐 Boring</button>
-                <button class="rate-btn" disabled>😊 Great</button>
-                <button class="rate-btn" disabled>🤩 Amazing</button>
-            </div>
-        </div>
-
-          <!-- Comments -->
-         </div>
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <strong class="text-warning fs-5" id="movieRating">⭐ 0.0</strong>
+            <span class="text"><i class="bi bi-lock-fill me-1"></i> Locked</span>
+          </div>
+          <p class="small text mb-1">What do you think about this movie?</p>
+          <div class="d-flex justify-content-between text-center">
+            <button class="rate-btn" disabled>😐 Boring</button>
+            <button class="rate-btn" disabled>😊 Great</button>
+            <button class="rate-btn" disabled>🤩 Amazing</button>
+          </div>
         </div>
       </div>
     </div>
-    {% include 'comment_cast_section.html' %}
-    {% include 'related_movie.html' %}
   </div>
 
-{% endblock %}
-{% block script %}
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-    const episodeButtons = document.querySelectorAll(".ep-btn");
+  {% include 'comment_cast_section.html' %}
+  {% include 'related_movie.html' %}
+</div>
 
-    episodeButtons.forEach((btn, index) => {
-        const episodeNum = index + 1;
-        if (episodeNum > 7) {        // lock episodes after 7
-        btn.classList.add("locked");
+<script>
+const pathParts = window.location.pathname.split("/");
+const movieCode = pathParts[pathParts.length - 1] || pathParts[pathParts.length - 2];
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const apiUrl = `http://127.0.0.1:8000/sanibox/master/moviespage/${movieCode}/`;
+
+  async function loadMovieData() {
+    try {
+      const res = await fetch(apiUrl);
+      const { data } = await res.json();
+
+      // Basic info
+      document.getElementById("movieTitle").textContent = data.movie_title;
+      document.getElementById("movieTitleBreadcrumb").textContent = data.movie_title;
+      document.getElementById("movieDescription").textContent = data.movie_description;
+      document.getElementById("moviePoster").src = data.main_movie_banner_image;
+      document.getElementById("movieRating").textContent = `⭐ ${data.like || 0}`;
+      const nextUnreleased = data.episodes.find(ep => !ep.is_released);
+      if (nextUnreleased) {
+        const releaseDate = new Date(nextUnreleased.release_date);
+        const formattedDate = releaseDate.toLocaleDateString("en-IN", {
+          year: "numeric",
+          month: "short",
+          day: "numeric"
+        });
+
+        document.getElementById("nextEpisodeInfo").innerHTML =
+          `📅 <span style="color:#ff6bcb;">Next episode drops on ${formattedDate}</span>`;
+      } else {
+        document.getElementById("nextEpisodeInfo").innerHTML =
+          `<span class="text-light">🎉 All episodes are released!</span>`;
+      }
+
+      // Tags
+      const tagsHTML = `
+        <span class="badge bg-warning" style="color:black;">${data.maturity_rating}</span>
+        <span class="badge bg-success">HD</span>
+        <span class="badge bg-info">${data.language.join(', ')}</span>
+        <span class="badge bg-dark">${data.total_episodes_duration}m</span>`;
+      document.getElementById("movieTags").innerHTML = tagsHTML;
+
+      // Languages
+      const langContainer = document.getElementById("languageButtons");
+      langContainer.innerHTML = data.language.map(lang => 
+        `<button class="btn btn-sm btn-outline-light active">${lang}</button>`
+      ).join('');
+
+      // Episodes
+      // Episodes (with countdowns for unreleased)
+      const epContainer = document.getElementById("episodeList");
+      epContainer.innerHTML = "";
+
+      const releasedEpisodes = data.episodes.filter(ep => ep.is_released);
+      const unreleasedEpisodes = data.episodes.filter(ep => !ep.is_released);
+
+      if (releasedEpisodes.length > 0) {
+        releasedEpisodes.forEach((ep, i) => {
+          const btn = document.createElement("button");
+          btn.className = "ep-btn";
+          btn.textContent = ep.episodes_order;
+          btn.title = ep.episodes_title;
+          btn.addEventListener("click", () => loadEpisode(ep));
+          if (i === 0) btn.classList.add("active");
+          epContainer.appendChild(btn);
+        });
+
+        // Load first released episode
+        loadEpisode(releasedEpisodes[0]);
+      } else {
+        document.getElementById("episodeInfo").textContent =
+          "No episodes released yet. Stay tuned!";
+      }
+
+      // Unreleased (locked) episodes with countdown
+      if (unreleasedEpisodes.length > 0) {
+        unreleasedEpisodes.forEach(ep => {
+          const btn = document.createElement("button");
+          btn.className = "ep-btn locked";
+          btn.textContent = ep.episodes_order;
+
+          const releaseDate = new Date(ep.release_date);
+          const today = new Date();
+          const diffDays = Math.ceil((releaseDate - today) / (1000 * 60 * 60 * 24));
+
+          const countdownText =
+            diffDays > 0
+              ? `Coming Soon (${diffDays} day${diffDays > 1 ? "s" : ""} left)`
+              : "Coming Soon";
+
+          btn.title = countdownText;
+          btn.disabled = true;
+          epContainer.appendChild(btn);
+        });
+      }
+
+
+    } catch (err) {
+      console.error("Error loading movie:", err);
+    }
+  }
+
+  function loadEpisode(ep) {
+    document.getElementById("videoSource").src = ep.main_source;
+    document.getElementById("animeVideo").poster = ep.thumbnail_image;
+    document.getElementById("animeVideo").load();
+
+    document.getElementById("episodeInfo").innerHTML = `
+      You are watching <strong>${ep.episodes_title}</strong><br>
+      ${ep.episodes_description}`;
+
+    document.querySelectorAll(".ep-btn").forEach(btn => btn.classList.remove("active"));
+    const currentBtn = Array.from(document.querySelectorAll(".ep-btn"))
+      .find(b => b.textContent == ep.episodes_order);
+    if (currentBtn) currentBtn.classList.add("active");
+  }
+
+  loadMovieData();
+});
+
+async function loadMovieDetails(movieCode) {
+  try {
+    // === Fetch CAST ===
+    const castRes = await fetch(`/sanibox/master/moviespage/${movieCode}/casts/`);
+    const castData = await castRes.json();
+    const castContainer = document.querySelector(".cast-list");
+    castContainer.innerHTML = "";
+
+    // Main Hero
+    if (castData.main_heros) {
+      const hero = castData.main_heros;
+      castContainer.innerHTML += `
+        <div class="cast-item d-flex align-items-center mb-3">
+          <img src="${hero.image}" alt="${hero.hero_name}" class="cast-img me-3 rounded">
+          <div>
+            <h6 class="text-light mb-1">${hero.hero_name}</h6>
+            <span class="text-muted small">Main Hero</span>
+          </div>
+        </div>`;
+    }
+
+    // Director
+    if (castData.main_director) {
+      const dir = castData.main_director;
+      castContainer.innerHTML += `
+        <div class="cast-item d-flex align-items-center mb-3">
+          <img src="${dir.image}" alt="${dir.director_name}" class="cast-img me-3 rounded">
+          <div>
+            <h6 class="text-light mb-1">${dir.director_name}</h6>
+            <span class="text-muted small">Director</span>
+          </div>
+        </div>`;
+    }
+
+    // Supporting Cast
+    if (castData.cast && castData.cast.length > 0) {
+      castData.cast.forEach(c => {
+        castContainer.innerHTML += `
+          <div class="cast-item d-flex align-items-center mb-3">
+            <img src="${c.image}" alt="${c.cast_name}" class="cast-img me-3 rounded">
+            <div>
+              <h6 class="text-light mb-1">${c.cast_name}</h6>
+              <span class="text-muted small">Supporting Cast</span>
+            </div>
+          </div>`;
+      });
+    } else {
+      castContainer.innerHTML += `<p class="text-secondary">No cast details found.</p>`;
+    }
+
+    // === Fetch COMMENTS ===
+    const commentRes = await fetch(`/sanibox/master/moviespage/${movieCode}/comments/`);
+    const commentContainer = document.querySelector(".comment-list");
+    const commentCount = document.getElementById("comment-count");
+
+    const commentData = await commentRes.json();
+    commentContainer.innerHTML = "";
+
+    // Check message key
+    if (commentData.message === "No comments found" || commentData.length === 0) {
+      commentCount.textContent = "0";
+      commentContainer.innerHTML = `<p class="text-light">No comments yet.</p>`;
+    } else {
+      commentCount.textContent = commentData.length;
+      commentData.forEach(c => {
+        commentContainer.innerHTML += `
+          <div class="comment-item d-flex mb-4">
+            <img src="${c.user.profile_photo || 'https://i.pravatar.cc/40'}" 
+                 class="rounded-circle me-3" alt="${c.user.username}">
+            <div class="flex-grow-1">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <h6 class="mb-0 text-light">${c.user.username}</h6>
+                <span class="small text-muted">${c.time_ago || "Just now"}</span>
+              </div>
+              <p class="mb-2 text-light">${c.user_comments}</p>
+              <div class="comment-actions d-flex align-items-center gap-3 small text-muted">
+                <a href="#" class="text-decoration-none text-info">Reply</a>
+                <span><i class="bi bi-hand-thumbs-up"></i> ${c.likes || 0}</span>
+                <a href="#" class="text-decoration-none text-muted">More</a>
+              </div>
+            </div>
+          </div>`;
+      });
+    }
+
+    const trailerBtn = document.getElementById("watchTrailerBtn");
+    const trailerModal = document.getElementById("trailerModal");
+    const closeTrailer = document.querySelector(".close-trailer");
+    const trailerVideo = document.getElementById("trailerVideo");
+    const trailerSource = document.getElementById("trailerSource");
+
+    // Fetch trailer URL dynamically from API
+    async function fetchTrailer() {
+      try {
+        const res = await fetch(`http://127.0.0.1:8000/sanibox/master/moviespage/${movieCode}/`);
+        const { data } = await res.json();
+
+        if (!data.movie_trailer) {
+          alert("Trailer not available for this movie.");
+          return;
         }
-    });
-    });
+
+        let trailerUrl = data.movie_trailer;
+
+        // ✅ Support both YouTube & direct MP4 links
+        if (trailerUrl.includes("youtu")) {
+          // Convert to embeddable YouTube URL
+          const videoId = trailerUrl.split("v=")[1] || trailerUrl.split("/").pop();
+          const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+
+          // Replace video tag with iframe for YouTube
+          trailerModal.querySelector(".trailer-content").innerHTML = `
+            <button class="close-trailer">&times;</button>
+            <iframe width="100%" height="500" src="${embedUrl}" frameborder="0" 
+              allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+        } else {
+          // Normal MP4 trailer
+          trailerSource.src = trailerUrl;
+          trailerVideo.load();
+          trailerModal.style.display = "flex";
+        }
+
+        trailerModal.style.display = "flex";
+
+        // Rebind close button
+        document.querySelector(".close-trailer").addEventListener("click", () => {
+          trailerModal.style.display = "none";
+          if (trailerVideo) trailerVideo.pause();
+        });
+
+    } catch (err) {
+      console.error("Error loading trailer:", err);
+    }
+  }
+
+  trailerBtn.addEventListener("click", fetchTrailer);
+
+  // Close on background click
+  trailerModal.addEventListener("click", (e) => {
+    if (e.target === trailerModal) {
+      trailerModal.style.display = "none";
+      if (trailerVideo) trailerVideo.pause();
+    }
+  });
+  } catch (err) {
+    console.error("Error loading movie details:", err);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadMovieDetails(movieCode);
+});
+
 </script>
-{% endblock %} 
+{% endblock %}

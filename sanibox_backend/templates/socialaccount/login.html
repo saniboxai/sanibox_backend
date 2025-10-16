@@ -11,7 +11,7 @@
         body {
             margin: 0;
             font-family: 'Poppins', sans-serif;
-            background: #14121c;
+            background: linear-gradient(180deg, rgb(26 23 37 / 76%), rgb(34 22 80 / 75%));
             color: #fff;
             height: 100vh;
             display: flex;
@@ -21,7 +21,7 @@
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: linear-gradient(180deg, rgb(26 23 37 / 76%), rgb(34 22 80 / 75%));
             backdrop-filter: blur(8px);
             display: flex;
             align-items: center;
@@ -83,7 +83,7 @@
                 {% csrf_token %}
                 <button type="submit" class="btn-login mt-3">Continue with Google <i class="bi bi-google ms-2"></i></button>
             </form>
-            <p class="mt-3 small"><a href="/" style="color:#ff6bcb;">Cancel</a></p>
+            <p class="mt-3 small"><a href="http://127.0.0.1:8000/sanibox/index/" style="color:#ff6bcb;">Home</a></p>
         </div>
     </div>
 </body>
