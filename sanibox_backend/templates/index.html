@@ -504,8 +504,93 @@
 
             document.addEventListener("DOMContentLoaded", loadNewMovies);
 
-            
+            document.addEventListener("DOMContentLoaded", function () {
+            const googleBtns = document.querySelectorAll(".btn-social.google");
+            const loginModal = document.getElementById("loginModal");
+            const registerModal = document.getElementById("registerModal");
+            const navRight = document.querySelector(".nav-right");
 
+            // === 1️⃣ Handle Google Login Click (from any modal)
+            googleBtns.forEach((btn) => {
+                btn.addEventListener("click", (e) => {
+                e.preventDefault();
+
+                // Hide modals
+                if (loginModal) loginModal.style.display = "none";
+                if (registerModal) registerModal.style.display = "none";
+                document.body.style.overflow = "";
+
+                // Save progress marker
+                localStorage.setItem("google_login_in_progress", "true");
+
+                // Redirect to Django Allauth Google Login
+                window.location.href = "http://127.0.0.1:8000/accounts/google/login/";
+                });
+            });
+
+            // === 2️⃣ Check if returned from Google
+            async function checkLoginStatus() {
+                try {
+                const res = await fetch("http://127.0.0.1:8000/sanibox/user/session/");
+                const data = await res.json();
+
+                // If returning from redirect, clean up
+                if (localStorage.getItem("google_login_in_progress")) {
+                    if (loginModal) loginModal.style.display = "none";
+                    if (registerModal) registerModal.style.display = "none";
+                    document.body.style.overflow = "";
+                    localStorage.removeItem("google_login_in_progress");
+                }
+                
+                if (data.is_authenticated) {
+                    navRight.innerHTML = `
+                    <div class="theme-toggle">
+                        <i id="theme-icon" class="fas fa-moon"></i>
+                    </div>
+                    <div class="user-info d-flex align-items-center gap-2">
+                        ${
+                        data.avatar
+                            ? `<img src="${data.avatar}" class="user-avatar rounded-circle" style="width:32px; height:32px;">`
+                            : `<i class="bi bi-person-circle fs-4"></i>`
+                        }
+                        <span>${data.username || "User"}</span>
+                    </div>
+                    <button class="logout-btn btn btn-sm btn-danger ms-3">Logout</button>
+                    `;
+
+                    // Attach logout event
+                    const logoutBtn = document.querySelector(".logout-btn");
+                    logoutBtn.addEventListener("click", async () => {
+                    await fetch("http://127.0.0.1:8000/accounts/logout/", {
+                        method: "POST",
+                        headers: { "X-CSRFToken": getCookie("csrftoken") },
+                    });
+                    location.reload();
+                    });
+                }
+                } catch (err) {
+                console.error("Login check failed:", err);
+                }
+            }
+
+            // === 3️⃣ Cookie Helper for CSRF ===
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== "") {
+                const cookies = document.cookie.split(";");
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.startsWith(name + "=")) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                    }
+                }
+                }
+                return cookieValue;
+            }
+
+            checkLoginStatus();
+            });
                 
         </script>
         

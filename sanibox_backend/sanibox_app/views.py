@@ -5,6 +5,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView 
 from .serializers import *
 from .models import *
+from django.http import JsonResponse
+from allauth.socialaccount.models import SocialAccount
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -14,6 +17,23 @@ def index(request):
 def moviepage(request, code):
     movie = get_object_or_404(MasterMovie, movie_code=code)
     return render(request, 'movie_page.html', {'movie': movie})
+
+def user_session_view(request):
+    user = request.user
+    if user.is_authenticated:
+        avatar = None
+        try:
+            social = SocialAccount.objects.get(user=user)
+            avatar = social.extra_data.get("picture")
+        except SocialAccount.DoesNotExist:
+            pass
+        return JsonResponse({
+            "is_authenticated": True,
+            "username": user.username,
+            "email": user.email,
+            "avatar": avatar,
+        })
+    return JsonResponse({"is_authenticated": False})
 
 class mastermovielistView(generics.ListAPIView):
     serializer_class = MasterMovieSerializer
